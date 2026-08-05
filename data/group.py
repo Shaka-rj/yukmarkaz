@@ -20,4 +20,9 @@ GROUPS = [
     "@Furachilar_isuzu_yukmarkazi",
     "@labochilar_isuzi_xizmazi",
     -1001234214428, #"@yuk_markazi_gruppaaaa"
+
+    # sirdaryo
+    -1001596565132, #"@toshkentsirdaryo"  TOSHKENT_SIRDARYO yuk markazi🇺🇿
+    -1002285810825, #"@yukmarkazVohaBuxSamTosh"   Xorazm Buxoro Navoiy Qashqadaryo Surxondaryo Samarqand Jizzax Sirdaryo Toshkent vodiy yuk gruppasi chakman isuzu kamaz faw howo
+    
 ]
