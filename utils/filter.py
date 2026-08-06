@@ -55,6 +55,7 @@ blocked_words = [
     "омск",
 
     "olamiz",
+    "оламиз",
     "yuramiz",
     "bo'shadik",
     "bo‘shadik",
@@ -65,6 +66,9 @@ blocked_words = [
 def filter_message(text):
     if not text:
         return False
+
+    if not (15 <= len(text.replace(" ", "")) <= 150):
+        return
 
     if _is_duplicate_recent(text, interval_seconds=600):
         return False

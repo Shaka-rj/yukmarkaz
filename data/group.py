@@ -28,5 +28,14 @@ GROUPS = [
     -1001183992851, #"https://t.me/namangan_isuzi"|| 𝙉𝙖𝙢𝙖𝙣𝙜𝙖𝙣 𝙞𝙨𝙪𝙯𝙞 ||936732022 𝙑𝙤𝙙𝙞𝙮 𝘽𝙤𝙮𝙡𝙖𝙗 ||
     -1001991927729, #"https://t.me/YukMarkazUzGroup" Barcha Yuklar
     -1001723821228, #"@Isuzuuuuuuuuuuuuuuuuuuuuuuuuuuuu" Samarqand Vodiy Yuk Markazi🚚🚚🚚🚚🚛🚛🚛🚛
-    
+    -1001210236379, #"@Yuk_markazi_isuzu_uz" YUK MARKAZI
+    -1001394512469, #@Yuk_markazi_yuk_yukla Yuk markazi |🇺🇿| Yuk bor
+    -1001375743983, #"@logisticsystem"Юк ташиш хизмати/Грузоперевозка
+    "@YUKmarkazi_yuklar_shopirlar",
+    "@Yuk_Markazi_Fura_Isuzu",
+    "@yuktawiw",
+    "@anvarchik_93   @YUKMARKZIMEGA  https://t.me/fura_furachilar_yukmarkazi_rasmi   https://t.me/nukus3xorazm9yuk1tashish  "
+
+
+
 ]
