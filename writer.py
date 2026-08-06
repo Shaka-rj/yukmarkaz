@@ -89,7 +89,7 @@ def contains_forbidden_vehicle(text: str) -> bool:
     return bool(match)
 
 def extract_max_weight(text: str) -> float | None:
-    pattern = r'(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|tona|tn|тн|тонна|[tт])\b'
+    pattern = r'(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|tona|tn|тн|тонна|тона|[tт])\b'
     matches = re.findall(pattern, text, re.IGNORECASE)
     
     if not matches:
