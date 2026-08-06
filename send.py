@@ -6,10 +6,10 @@ _client = httpx.AsyncClient(timeout=10)
 
 
 
-async def send_message(text: str) -> bool:
+async def send_message(text: str, chat_id: int | str = MAIN_GROUP_ID) -> bool:
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     payload = {
-        "chat_id": MAIN_GROUP_ID,
+        "chat_id": chat_id,
         "text": text
     }
 

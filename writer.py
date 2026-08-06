@@ -2,6 +2,9 @@ import hashlib
 import aiosqlite
 from pathlib import Path
 from utils.region_detector import find_regions
+from config import ABBOS_GROUP_ID
+from send import send_message
+import re
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "storage" / "yuklar.db"
@@ -38,16 +41,15 @@ async def save_load_message(text: str, region_a: str = None, region_b: str = Non
         return True
 
 async def save_message(text: str) -> bool:
-    regions = find_regions(text)  # Massiv qaytaradi: [], ["Toshkent"] yoki ["Toshkent", "Samarqand"]
+    regions = find_regions(text)  # ["Toshkent"], ["Qashqadaryo", "Samarqand"] va hokazo
 
-    region_a = None
-    region_b = None
+    region_a = regions[0] if len(regions) >= 1 else None
+    region_b = regions[1] if len(regions) >= 2 else None
 
-    if len(regions) == 1:
-        region_a = regions[0]
-    elif len(regions) >= 2:
-        region_a = regions[0]
-        region_b = regions[1]
+    # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
+    target_regions = {"Qashqadaryo", "Samarqand"}
+    if any(region in target_regions for region in regions):
+        await abbos_group(text)
 
     saved = await save_load_message(
         text=text, 
@@ -56,3 +58,36 @@ async def save_message(text: str) -> bool:
     )
     
     return saved
+
+
+def extract_max_weight(text: str) -> float | None:
+    # 't', 'т', 'tn', 'тн', 'tona', 'tonna', 'тонна' va boshqa barcha variantlarni qamrab oladi
+    pattern = r'(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|tona|tn|тн|тонна|[tт])\b'
+    matches = re.findall(pattern, text, re.IGNORECASE)
+    
+    if not matches:
+        return None
+    
+    max_weight = 0.0
+    for match in matches:
+        val1 = float(match[0].replace(',', '.'))
+        val2 = float(match[1].replace(',', '.')) if match[1] else val1
+        
+        current_max = max(val1, val2)
+        if current_max > max_weight:
+            max_weight = current_max
+            
+    return max_weight
+
+
+async def abbos_group(text: str) -> bool:
+    weight = extract_max_weight(text)
+    
+    # 3 tonnadan ortiq bo'lsa filtrlaydi
+    if weight is not None and weight > 3:
+        print(f"⛔ Filtirdan o'tmadi: {weight} tonna (3 t-dan ko'p)")
+        return False
+
+    return await send_message(text, chat_id=ABBOS_GROUP_ID)
+
+

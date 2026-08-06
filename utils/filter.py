@@ -33,7 +33,20 @@ def _is_duplicate_recent(text: str, interval_seconds: int = 600) -> bool:
 blocked_words = [
     "reklama",
     "spam",
-    "test"
+    "test",
+    "астрахан",
+    "волгоград",
+    "беларус",
+    "москва",
+    "малатя",
+    "ekaterin",
+    "serov",
+    "tent",
+    "fura",
+    "тент",
+    "фура",
+    "новоросси",
+    "росси"
 ]
 
 def filter_message(text):
