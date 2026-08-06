@@ -61,6 +61,33 @@ async def save_message(text: str) -> bool:
 
 
 
+
+
+###########################
+CYRILLIC_TO_LATIN = str.maketrans({
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+    'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+    'ф': 'f', 'х': 'x', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+    'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+    'қ': 'q', 'ғ': 'g', 'ҳ': 'h', 'ў': 'o'
+})
+
+# Taqiqlangan rusumlar ro'yxati (faqat kichik lotin harflarida)
+FORBIDDEN_VEHICLES_PATTERN = re.compile(
+    r'\b(isuzu|isuzi|izuzi|shacman|shakman|chakman|kamaz)\w*', 
+    re.IGNORECASE
+)
+
+def contains_forbidden_vehicle(text: str) -> bool:
+    """Matnni lotinchaga va kichik harflarga o'tkazib, taqiqlangan avtomobilni izlaydi."""
+    # 1. Kichik harflarga o'tkazish va krillchadan lotinchaga o'girish
+    normalized_text = text.lower().translate(CYRILLIC_TO_LATIN)
+    
+    # 2. Qidiruv
+    match = FORBIDDEN_VEHICLES_PATTERN.search(normalized_text)
+    return bool(match)
+
 def extract_max_weight(text: str) -> float | None:
     pattern = r'(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|tona|tn|тн|тонна|[tт])\b'
     matches = re.findall(pattern, text, re.IGNORECASE)
@@ -81,9 +108,8 @@ def extract_max_weight(text: str) -> float | None:
 
 
 async def abbos_group(text: str) -> bool:
-    # 1. Isuzu/Исузу tekshiruvi
-    if re.search(r'\b(isuzu|исузу|chakman|kamaz|камаз|чакман|isuzi|исузи)\b', text, re.IGNORECASE):
-        print("⛔ Filtirdan o'tmadi: Matnda Isuzu/Исузу bor")
+    if contains_forbidden_vehicle(text):
+        print("⛔ Filtirdan o'tmadi: Matnda taqiqlangan avtomobil (Isuzu/Kamaz/Shacman) bor")
         return False
 
     # 2. Tonna tekshiruvi (3 tonnadan ko'p bo'lsa)
