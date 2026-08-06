@@ -82,7 +82,7 @@ def extract_max_weight(text: str) -> float | None:
 
 async def abbos_group(text: str) -> bool:
     # 1. Isuzu/Исузу tekshiruvi
-    if re.search(r'\b(isuzu|исузу|chakman|kamaz|камаз|чакман)\b', text, re.IGNORECASE):
+    if re.search(r'\b(isuzu|исузу|chakman|kamaz|камаз|чакман|isuzi|исузи)\b', text, re.IGNORECASE):
         print("⛔ Filtirdan o'tmadi: Matnda Isuzu/Исузу bor")
         return False
 
