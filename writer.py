@@ -60,8 +60,8 @@ async def save_message(text: str) -> bool:
     return saved
 
 
+
 def extract_max_weight(text: str) -> float | None:
-    # 't', 'т', 'tn', 'тн', 'tona', 'tonna', 'тонна' va boshqa barcha variantlarni qamrab oladi
     pattern = r'(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|tona|tn|тн|тонна|[tт])\b'
     matches = re.findall(pattern, text, re.IGNORECASE)
     
@@ -81,13 +81,15 @@ def extract_max_weight(text: str) -> float | None:
 
 
 async def abbos_group(text: str) -> bool:
+    # 1. Isuzu/Исузу tekshiruvi
+    if re.search(r'\b(isuzu|исузу)\b', text, re.IGNORECASE):
+        print("⛔ Filtirdan o'tmadi: Matnda Isuzu/Исузу bor")
+        return False
+
+    # 2. Tonna tekshiruvi (3 tonnadan ko'p bo'lsa)
     weight = extract_max_weight(text)
-    
-    # 3 tonnadan ortiq bo'lsa filtrlaydi
     if weight is not None and weight > 3:
         print(f"⛔ Filtirdan o'tmadi: {weight} tonna (3 t-dan ko'p)")
         return False
 
     return await send_message(text, chat_id=ABBOS_GROUP_ID)
-
-
