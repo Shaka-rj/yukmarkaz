@@ -75,7 +75,7 @@ CYRILLIC_TO_LATIN = str.maketrans({
 
 # Taqiqlangan rusumlar ro'yxati (faqat kichik lotin harflarida)
 FORBIDDEN_VEHICLES_PATTERN = re.compile(
-    r'\b(isuzu|isuzi|izuzi|shacman|shakman|chakman|kamaz|pagruzchik|traler|trailer)\w*', 
+    r'\b(isuzu|isuzi|izuzi|shacman|shakman|chakman|kamaz|pagruzchik|traler|trailer|shalanda|ref|plashatka|esuzzi|esuziy|katta moshin|usuzi|tiraller|esuzi|samasval|)\w*', 
     re.IGNORECASE
 )
 
@@ -92,7 +92,7 @@ def extract_max_weight(text: str) -> float | None:
     # 1. Telefon raqamlari / kontakt bloklarini to'g'ridan-to'g'ri tonna deb o'ylamaslik uchun:
     # Son va birlik orasidagi bog'liqlikni aniq ushlaydigan pattern
     # Variantlar: 13t, 13-t, 13 t, 13 tonna, 13.5 tn, 13 - 15 tn va hokazo.
-    pattern = r'(?<!\d)\b(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|тонна|tona|тона|tn|тн|[tт])\b'
+    pattern = r'(?<!\d)\b(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|тонна|tona|тона|tn|тн|ton|тон|[tт])\b'
     
     matches = re.findall(pattern, text, re.IGNORECASE)
     

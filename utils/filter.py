@@ -49,7 +49,17 @@ blocked_words = [
     "новоросси",
     "росси",
     "manisa",
-    "izmir"
+    "izmir",
+    "шымкент",
+    "шимкент",
+    "омск",
+
+    "olamiz",
+    "yuramiz",
+    "bo'shadik",
+    "bo‘shadik",
+    "tashiymiz",
+    "boshladik",
 ]
 
 def filter_message(text):
