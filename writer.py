@@ -89,7 +89,11 @@ def contains_forbidden_vehicle(text: str) -> bool:
     return bool(match)
 
 def extract_max_weight(text: str) -> float | None:
-    pattern = r'(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|tona|tn|тн|тонна|тона|[tт])\b'
+    # 1. Telefon raqamlari / kontakt bloklarini to'g'ridan-to'g'ri tonna deb o'ylamaslik uchun:
+    # Son va birlik orasidagi bog'liqlikni aniq ushlaydigan pattern
+    # Variantlar: 13t, 13-t, 13 t, 13 tonna, 13.5 tn, 13 - 15 tn va hokazo.
+    pattern = r'(?<!\d)\b(\d+(?:[\.,]\d+)?)(?:\s*-\s*(\d+(?:[\.,]\d+)?))?\s*(?:tonna|тонна|tona|тона|tn|тн|[tт])\b'
+    
     matches = re.findall(pattern, text, re.IGNORECASE)
     
     if not matches:
@@ -101,10 +105,16 @@ def extract_max_weight(text: str) -> float | None:
         val2 = float(match[1].replace(',', '.')) if match[1] else val1
         
         current_max = max(val1, val2)
+        
+        # Mantiqiy cheklov (Anomaliya filtri):
+        # 100 tonnadan ortiq yuk e'lonlarda deyarli bo'lmaydi (bu telefon raqami yoki boshqa son)
+        if current_max > 100:
+            continue
+            
         if current_max > max_weight:
             max_weight = current_max
             
-    return max_weight
+    return max_weight if max_weight > 0 else None
 
 
 async def abbos_group(text: str) -> bool:
