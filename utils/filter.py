@@ -38,6 +38,7 @@ blocked_words = [
     "волгоград",
     "беларус",
     "москва",
+    "moskva",
     "малатя",
     "ekaterin",
     "serov",
@@ -46,7 +47,9 @@ blocked_words = [
     "тент",
     "фура",
     "новоросси",
-    "росси"
+    "росси",
+    "manisa",
+    "izmir"
 ]
 
 def filter_message(text):

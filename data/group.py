@@ -20,9 +20,13 @@ GROUPS = [
     "@Furachilar_isuzu_yukmarkazi",
     "@labochilar_isuzi_xizmazi",
     -1001234214428, #"@yuk_markazi_gruppaaaa"
-
-    # sirdaryo
     -1001596565132, #"@toshkentsirdaryo"  TOSHKENT_SIRDARYO yuk markazi🇺🇿
     -1002285810825, #"@yukmarkazVohaBuxSamTosh"   Xorazm Buxoro Navoiy Qashqadaryo Surxondaryo Samarqand Jizzax Sirdaryo Toshkent vodiy yuk gruppasi chakman isuzu kamaz faw howo
+    -1001573960913, #"@toshkent_namangan_yuk_markazi"  YUK MARKAZI ISUZI TOSHKENT NAMANGAN
+    -1002095466628, #"https://t.me/vodiyvoxayuk" Yuk markazi gruppasi vodiy voxa toshkent isuzu hunday kiya bongo sprintr qarshi Samarqand navoi anjon Namangan Fargona Xorazm
+    -1002696273294, #"@yukmarkazi70" 🌏YUK_🎯markazi🇺🇿 14tonnali10tonnali 5tonnali
+    -1001183992851, #"https://t.me/namangan_isuzi"|| 𝙉𝙖𝙢𝙖𝙣𝙜𝙖𝙣 𝙞𝙨𝙪𝙯𝙞 ||936732022 𝙑𝙤𝙙𝙞𝙮 𝘽𝙤𝙮𝙡𝙖𝙗 ||
+    -1001991927729, #"https://t.me/YukMarkazUzGroup" Barcha Yuklar
+    -1001723821228, #"@Isuzuuuuuuuuuuuuuuuuuuuuuuuuuuuu" Samarqand Vodiy Yuk Markazi🚚🚚🚚🚚🚛🚛🚛🚛
     
 ]
