@@ -2,7 +2,7 @@ import asyncio
 import logging
 from telethon import TelegramClient, events
 
-from config import API_ID, API_HASH, SESSION_NAME
+from config import API_ID, API_HASH, SESSION_NAME, MAIN_GROUP_ID
 from send import send_message
 from writer import save_message
 from utils.filter import filter_message
@@ -14,7 +14,7 @@ pending_reads = set()
 @client.on(events.NewMessage())
 async def new_message(event):
     try:
-        if not event.is_group:
+        if not event.is_group or event.chat_id == MAIN_GROUP_ID:
             return
 
         text = event.raw_text or ""

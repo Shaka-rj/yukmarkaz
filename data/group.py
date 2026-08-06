@@ -34,8 +34,13 @@ GROUPS = [
     "@YUKmarkazi_yuklar_shopirlar",
     "@Yuk_Markazi_Fura_Isuzu",
     "@yuktawiw",
-    "@anvarchik_93   @YUKMARKZIMEGA  https://t.me/fura_furachilar_yukmarkazi_rasmi   https://t.me/nukus3xorazm9yuk1tashish  "
+    "@anvarchik_93   @YUKMARKZIMEGA  https://t.me/fura_furachilar_yukmarkazi_rasmi   https://t.me/nukus3xorazm9yuk1tashish  @nukus3xorazm9yuk1tashish"
 
 
 
 ]
+
+
+
+
+#https://t.me/uhxjccxyxjcufhhh    https://t.me/Yuk_markazi007    https://t.me/yukmarkazqashqadaryo  https://t.me/Namangan_yuk_markazi01   https://t.me/YUKSURXANDARYO1   https://t.me/yuk_markazi_mahalliy 
