@@ -132,10 +132,10 @@ FORBIDDEN_WORDS = (
     "shacman", "shakman", "chakman", "kamaz", "samasval",
     "pagruzchik", "traler", "trailer", "tiraller", 
     "shalanda", "ref", "plashatka", "katta moshin",
-    "evakuvator", "evakuator",
-    "Yuk #",
+    "evakuvator", "evakuator", "ekskavator",
+    "yuk #",
     "sement", "sment", "sement", "shefir", "kumir",
-    "tanar"
+    "tanar", "plashadka"
 )
 
 # Regseks patternedini dinamik va toza ko'rinishda yig'ish
