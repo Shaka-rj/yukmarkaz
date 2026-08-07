@@ -71,7 +71,9 @@ blocked_words = [
     "yuk olaman",
     "kerak bolsa",
     "олиб кетамиз",
-    "moshinalar tayyor"
+    "moshinalar tayyor",
+    "plashadka",
+    "plashatka"
 ]
 
 def filter_message(text):
@@ -183,6 +185,7 @@ def extract_max_weight(text: str) -> float | None:
 
 # katta mashina bulsa true
 def mini_cars(text: str) -> bool:
+    weight = extract_max_weight(text)
     if weight is not None and weight > 3:
         return True
 
