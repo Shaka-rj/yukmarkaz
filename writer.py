@@ -75,7 +75,7 @@ CYRILLIC_TO_LATIN = str.maketrans({
 
 # Taqiqlangan rusumlar ro'yxati (faqat kichik lotin harflarida)
 FORBIDDEN_VEHICLES_PATTERN = re.compile(
-    r'\b(isuzu|isuzi|izuzi|shacman|shakman|chakman|kamaz|pagruzchik|traler|trailer|shalanda|ref|plashatka|esuzzi|esuziy|katta moshin|usuzi|tiraller|esuzi|samasval|)\w*', 
+    r'\b(isuzu|isuzi|izuzi|shacman|shakman|chakman|kamaz|pagruzchik|traler|trailer|shalanda|ref|plashatka|esuzzi|esuziy|katta moshin|usuzi|tiraller|esuzi|samasval)\w*', 
     re.IGNORECASE
 )
 
