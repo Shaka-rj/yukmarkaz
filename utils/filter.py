@@ -68,12 +68,17 @@ blocked_words = [
     "yuk kerak",
     "yuk kera",
     "yuk bormi",
+    "yuk busa",
+    "yuk bulsa",
     "yuk olaman",
     "kerak bolsa",
     "олиб кетамиз",
     "moshinalar tayyor",
     "plashadka",
-    "plashatka"
+    "plashatka",
+    "kishi kerak",
+    "kishi bor",
+    "kishi olamiz"
 ]
 
 def filter_message(text):
@@ -131,7 +136,7 @@ CYRILLIC_TO_LATIN = str.maketrans({
 # Taqiqlangan avtomobil va kalit so'zlar ro'yxati
 FORBIDDEN_WORDS = (
     "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi",
-    "shacman", "shakman", "chakman", "kamaz", "samasval",
+    "shacman", "shakman", "chakman", "kamaz", "samasval", "savosval",
     "pagruzchik", "traler", "trailer", "tiraller", 
     "shalanda", "ref", "plashatka", "katta moshin",
     "evakuvator", "evakuator", "ekskavator",
@@ -175,7 +180,7 @@ def extract_max_weight(text: str) -> float | None:
         current_max = max(val1, val2)
         
         # Mantiqiy cheklov (Anomaliya filtri - 100 tonnadan ko'plar o'tkazilmaydi)
-        if current_max > 100:
+        if current_max > 50:
             continue
             
         if current_max > max_weight:
