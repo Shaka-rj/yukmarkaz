@@ -57,22 +57,40 @@ async def read_worker():
         )
 
 async def start_reading():
-    """Internet uzilsa ham avtomatik qayta ulanuvchi xavfsiz sikl"""
+    """Internet uzilsa avtomatik qayta ulanadi."""
+
+    worker_task = None
+
     while True:
         try:
-            await client.start()
+            print("Telegram'ga ulanmoqda...")
 
-            asyncio.create_task(read_worker())
+            await client.connect()
 
+            if not await client.is_user_authorized():
+                print("Telegram sessiyasi avtorizatsiyadan o'tmagan!")
+                return
 
             print("Bot ishga tushdi va xabarlarni tinglamoqda...")
 
-            await client.run_until_disconnected()
+            # Worker faqat bir marta ishga tushadi
+            if worker_task is None or worker_task.done():
+                worker_task = asyncio.create_task(read_worker())
+
+            # Ulanish uzilguncha kutadi
+            await client.disconnected
+
+            print("Telegram ulanishi uzildi.")
 
         except (ConnectionError, OSError, TimeoutError, asyncio.TimeoutError) as e:
-            print(f"Internet aloqasi uzildi: {e}")
-            await asyncio.sleep(10)
-            
+            print(f"Internet/ulanish xatosi: {e}")
+
         except Exception as e:
-            print(f"Kutilmagan xatolik yuz berdi: {e}")
-            await asyncio.sleep(10)
+            print(f"Kutilmagan xatolik: {e}")
+
+        finally:
+            if client.is_connected():
+                await client.disconnect()
+
+        print("10 soniyadan keyin qayta ulanadi...")
+        await asyncio.sleep(10)
