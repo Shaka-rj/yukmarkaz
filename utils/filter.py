@@ -67,6 +67,7 @@ blocked_words = [
     "xizmati",
     "yuk kerak",
     "yuk kera",
+    "йук кере",
     "yuk bormi",
     "yuk busa",
     "yuk bulsa",
@@ -81,7 +82,10 @@ blocked_words = [
     "kishi olamiz",
     "labo bor",
     "labo hizmati",
-    "muddatli tulov"
+    "muddatli tulov",
+
+    "sotiladi",
+    "сотилади"
 ]
 
 def filter_message(text):
@@ -131,21 +135,22 @@ CYRILLIC_TO_LATIN = str.maketrans({
     'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
     'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
     'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-    'ф': 'f', 'х': 'x', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+    'ф': 'f', 'х': 'x', 'ц': 's', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
     'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
     'қ': 'q', 'ғ': 'g', 'ҳ': 'h', 'ў': 'o'
 })
 
 # Taqiqlangan avtomobil va kalit so'zlar ro'yxati
 FORBIDDEN_WORDS = (
-    "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi", "izusi", 
+    "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi", "izusi", "isuz", "izuse", 
     "shacman", "shakman", "chakman", "kamaz", "samasval", "samosval",
     "pagruzchik", "traler", "trailer", "tiraller", "paravoz", "parovoz", 
     "shalanda", "ref", "reff", "plashatka", "katta moshin",
     "evakuvator", "evakuator", "ekskavator",
     "yuk #",
     "sement", "sment", "sement", "siment", "shefir", "shifer", "kumir",
-    "tanar", "plashadka"
+    "tanar", "plashadka",
+    "kantener", "konteyner"
 )
 
 # Regseks patternedini dinamik va toza ko'rinishda yig'ish
@@ -161,7 +166,7 @@ def extract_max_weight(text: str) -> float | None:
     pattern = (
         r'(?<!\d)\b(\d+(?:[\.,]\d+)?)'
         r'(?:\s*-\s*(\d+(?:[\.,]\d+)?))?'
-        r'[\s-]*(tonna|тонна|tona|тона|tn|тн|ton|тон|tonnadan|тоннадан|[tт]|kg|кг|kilo|кило)\b'
+        r'[\s-]*(tonna|тонна|tona|тона|tn|тн|ton|тон|tonnadan|тоннадан|tonali|[tт]|kg|кг|kilo|кило)\b'
     )
     
     matches = re.findall(pattern, text, re.IGNORECASE)
