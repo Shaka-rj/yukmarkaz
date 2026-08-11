@@ -85,6 +85,7 @@ blocked_words = [
     "shineray bor",
     "labo hizmati",
     "muddatli tulov",
+    "yukchilar aloqaga",
 
 
     "sotiladi",
@@ -96,13 +97,15 @@ blocked_words = [
 other_countries = [
 
     # flags
-    "🇨🇳","🇰🇿","🇷🇺","🇹🇷","🇦🇿",
+    "🇨🇳","🇰🇿","🇷🇺","🇹🇷","🇦🇿", "🇱🇹",
 
     # Rossiya
     "rossiya", "россия", "russia", "🇷🇺",
 
+    "belarusya", "екатеринбург", "Вильнюс"
+
     # Qozog‘iston
-    "qozog‘iston", "qozogiston", "казахстан", "kazakhstan", "🇰🇿",
+    "qozog‘iston", "qozogiston", "казахстан", "kazakhstan", "🇰🇿", "bishkek", 
 
     # Qirg‘iziston
     "qirg‘iziston", "qirgiziston", "киргизия", "кыргызстан",
