@@ -72,6 +72,7 @@ blocked_words = [
     "yuk busa",
     "yuk bulsa",
     "yuk olaman",
+    "yuk alamiz",
     "kerak bolsa",
     "олиб кетамиз",
     "moshinalar tayyor",
@@ -81,11 +82,76 @@ blocked_words = [
     "kishi bor",
     "kishi olamiz",
     "labo bor",
+    "shineray bor",
     "labo hizmati",
     "muddatli tulov",
 
+
     "sotiladi",
-    "сотилади"
+    "сотилади",
+    "юук булса"
+]
+
+
+other_countries = [
+
+    # flags
+    "🇨🇳","🇰🇿","🇷🇺","🇹🇷","🇦🇿",
+
+    # Rossiya
+    "rossiya", "россия", "russia", "🇷🇺",
+
+    # Qozog‘iston
+    "qozog‘iston", "qozogiston", "казахстан", "kazakhstan", "🇰🇿",
+
+    # Qirg‘iziston
+    "qirg‘iziston", "qirgiziston", "киргизия", "кыргызстан",
+    "kyrgyzstan", "🇰🇬",
+
+    # Tojikiston
+    "tojikiston", "тоҷикистон", "таджикистан", "tajikistan", "🇹🇯",
+
+    # Turkmaniston
+    "turkmaniston", "туркменистан", "turkmenistan", "🇹🇲",
+
+    # Afg‘oniston
+    "afg‘oniston", "afgoniston", "афганистан", "afghanistan", "🇦🇫",
+
+    # Xitoy
+    "xitoy", "китай", "china", "🇨🇳",
+
+    # Turkiya
+    "turkiya", "турция", "türkiye", "turkey", "🇹🇷",
+
+    # Eron
+    "eron", "иран", "iran", "🇮🇷",
+
+    # BAA
+    "baa", "оаэ", "uae", "dubai", "dubay", "🇦🇪",
+
+    # Saudiya
+    "saudiya", "саудовская аравия", "saudi arabia", "🇸🇦",
+
+    # Pokiston
+    "pokiston", "пакистан", "pakistan", "🇵🇰",
+
+    # Hindiston
+    "hindiston", "индия", "india", "🇮🇳",
+
+    # Ukraina
+    "ukraina", "украина", "ukraine", "🇺🇦",
+
+    # Belarus
+    "belarus", "беларусь", "belarus", "🇧🇾",
+
+    # Gruziya
+    "gruziya", "грузия", "georgia", "🇬🇪",
+
+    # Armaniston
+    "armaniston", "армении", "армения", "armenia", "🇦🇲",
+
+    # Ozarbayjon
+    "ozarbayjon", "azerbayjon", "азербайджан", "azerbaijan", "🇦🇿",
 ]
 
 def filter_message(text):
@@ -93,7 +159,7 @@ def filter_message(text):
         return False
 
     if not (15 <= len(text.replace(" ", "")) <= 150):
-        return
+        return False
 
     if _is_duplicate_recent(text, interval_seconds=600):
         return False
@@ -103,6 +169,10 @@ def filter_message(text):
     # 1. Blocked words tekshirish
     for word in blocked_words:
         if word.lower() in text_lower:
+            return False
+
+    for country in other_countries:
+        if country.lower() in text_lower:
             return False
 
 
@@ -133,7 +203,7 @@ def filter_message(text):
 # Krill-Lotin transliteratsiya xaritasi
 CYRILLIC_TO_LATIN = str.maketrans({
     'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
-    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+    'ж': 'j', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
     'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
     'ф': 'f', 'х': 'x', 'ц': 's', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
     'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
