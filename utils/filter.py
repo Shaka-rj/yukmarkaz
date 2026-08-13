@@ -67,6 +67,7 @@ blocked_words = [
     "xizmati",
     "yuk kerak",
     "yuk kera",
+    "yuk kk",
     "йук кере",
     "yuk bormi",
     "yuk busa",
@@ -86,11 +87,13 @@ blocked_words = [
     "labo hizmati",
     "muddatli tulov",
     "yukchilar aloqaga",
+    "xizmat qilamiz",
 
 
     "sotiladi",
     "сотилади",
-    "юук булса"
+    "юук булса",
+    "ташиймиз"
 ]
 
 
@@ -215,15 +218,15 @@ CYRILLIC_TO_LATIN = str.maketrans({
 
 # Taqiqlangan avtomobil va kalit so'zlar ro'yxati
 FORBIDDEN_WORDS = (
-    "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi", "izusi", "isuz", "izuse", 
+    "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi", "izusi", "isuz", "izuse", "iszzu",
     "shacman", "shakman", "chakman", "kamaz", "samasval", "samosval",
     "pagruzchik", "traler", "trailer", "tiraller", "paravoz", "parovoz", 
     "shalanda", "ref", "reff", "plashatka", "katta moshin",
     "evakuvator", "evakuator", "ekskavator",
     "yuk #",
-    "sement", "sment", "sement", "siment", "shefir", "shifer", "kumir",
+    "sement", "sment", "sement", "siment", "shefir", "shifer", "kumir", "shifir"
     "tanar", "plashadka",
-    "kantener", "konteyner"
+    "kantener", "konteyner", "musor",
 )
 
 # Regseks patternedini dinamik va toza ko'rinishda yig'ish
@@ -239,7 +242,7 @@ def extract_max_weight(text: str) -> float | None:
     pattern = (
         r'(?<!\d)\b(\d+(?:[\.,]\d+)?)'
         r'(?:\s*-\s*(\d+(?:[\.,]\d+)?))?'
-        r'[\s-]*(tonna|тонна|tona|тона|tn|тн|ton|тон|tonnadan|тоннадан|tonali|[tт]|kg|кг|kilo|кило)\b'
+        r'[\s-]*(tonna|тонна|tona|тона|tn|тн|ton|тон|tonnadan|тоннадан|tonali|tonnagacha|[tт]|kg|кг|kilo|кило)\b'
     )
     
     matches = re.findall(pattern, text, re.IGNORECASE)
