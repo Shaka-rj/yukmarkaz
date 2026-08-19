@@ -24,7 +24,8 @@ def init_db():
             message_hash TEXT NOT NULL,
             region_a TEXT,
             region_b TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            yid INTEGER
         );
 
         CREATE INDEX IF NOT EXISTS idx_created_hash ON loads(created_at, message_hash);
