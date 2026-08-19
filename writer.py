@@ -73,7 +73,7 @@ async def save_message(text: str, chat_id: int) -> bool:
         text=text, 
         region_a=region_a, 
         region_b=region_b,
-        chat_id=chat_ids
+        chat_id=chat_id
     )
     
     return saved
