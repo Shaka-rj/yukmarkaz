@@ -54,7 +54,7 @@ async def save_load_message(text: str, region_a: str = None, region_b: str = Non
         await db.execute("""
             INSERT INTO loads (message, message_hash, region_a, region_b, yid, from_id)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (text, msg_hash, region_a, region_b, yid, from_id))
+        """, (text, msg_hash, region_a, region_b, yid, chat_id))
         await db.commit()
         return True
 

@@ -14,7 +14,8 @@ pending_reads = set()
 @client.on(events.NewMessage())
 async def new_message(event):
     try:
-        if not event.is_group or event.chat_id == MAIN_GROUP_ID:
+        chat_id = event.chat_id
+        if not event.is_group or chat_id == MAIN_GROUP_ID:
             return
 
         text = event.raw_text or ""
@@ -30,11 +31,11 @@ async def new_message(event):
             return
 
         # Guruhni o'qilishi kerak deb belgilaymiz
-        pending_reads.add(event.chat_id)
+        pending_reads.add(chat_id)
 
         await asyncio.gather(
             send_message(text),
-            save_message(text, event.chat_id)
+            save_message(text, chat_id)
         )
 
     except Exception as e:
