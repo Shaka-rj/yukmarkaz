@@ -29,7 +29,7 @@ async def is_duplicate(db: aiosqlite.Connection, message_hash: str) -> bool:
         return row is not None
 
 
-async def save_load_message(text: str, region_a: str = None, region_b: str = None, chat_id: int) -> bool:
+async def save_load_message(text: str, region_a: str = None, region_b: str = None, chat_id: int = 0) -> bool:
     msg_hash = get_md5(text)
     now_uzb = datetime.now(UZB_TZ)
     today_uzb = now_uzb.strftime("%Y-%m-%d")
