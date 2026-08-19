@@ -34,7 +34,7 @@ async def new_message(event):
 
         await asyncio.gather(
             send_message(text),
-            save_message(text)
+            save_message(text, event.chat_id)
         )
 
     except Exception as e:

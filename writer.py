@@ -6,9 +6,12 @@ from config import ABBOS_GROUP_ID
 from send import send_message
 import re
 from utils.filter import mini_cars
+from datetime import datetime, timedelta, timezone
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "storage" / "yuklar.db"
+
+UZB_TZ = timezone(timedelta(hours=5))
 
 
 def get_md5(text: str) -> str:
@@ -26,22 +29,36 @@ async def is_duplicate(db: aiosqlite.Connection, message_hash: str) -> bool:
         return row is not None
 
 
-async def save_load_message(text: str, region_a: str = None, region_b: str = None) -> bool:
+async def save_load_message(text: str, region_a: str = None, region_b: str = None, chat_id: int) -> bool:
     msg_hash = get_md5(text)
+    now_uzb = datetime.now(UZB_TZ)
+    today_uzb = now_uzb.strftime("%Y-%m-%d")
 
     async with aiosqlite.connect(DB_PATH) as db:
         if await is_duplicate(db, msg_hash):
             return False
 
+        async with db.execute(
+            """
+            SELECT COUNT(*) 
+            FROM loads 
+            WHERE DATE(created_at, '+5 hours') = DATE(?)
+            """,
+            (today_uzb,),
+        ) as cursor:
+            count = (await cursor.fetchone())[0]
+
+        yid = count + 1
+
         # 2. Yangi xabar bo'lsa bazaga yozamiz
         await db.execute("""
-            INSERT INTO loads (message, message_hash, region_a, region_b)
-            VALUES (?, ?, ?, ?)
-        """, (text, msg_hash, region_a, region_b))
+            INSERT INTO loads (message, message_hash, region_a, region_b, yid, from_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (text, msg_hash, region_a, region_b, yid, from_id))
         await db.commit()
         return True
 
-async def save_message(text: str) -> bool:
+async def save_message(text: str, chat_id: int) -> bool:
     regions = find_regions(text)  # ["Toshkent"], ["Qashqadaryo", "Samarqand"] va hokazo
 
     region_a = regions[0] if len(regions) >= 1 else None
@@ -55,7 +72,8 @@ async def save_message(text: str) -> bool:
     saved = await save_load_message(
         text=text, 
         region_a=region_a, 
-        region_b=region_b
+        region_b=region_b,
+        chat_id=chat_ids
     )
     
     return saved
