@@ -2,7 +2,6 @@ import httpx
 from config import BOT_TOKEN, MAIN_GROUP_ID
 from utils.region_detector import find_regions
 
-# Bitta umumiy mijoz (session) - ulanishni qayta-qayta ishlatib tezlikni oshiradi
 _client = httpx.AsyncClient(timeout=10)
 
 topic_id = {
@@ -13,17 +12,15 @@ topic_id = {
 
 
 def gettopic(text: str) -> list[int]:
-    regions = find_regions(text)
+    regions = find_regions(text) or []
 
-    # Takrorlangan viloyatlarni olib tashlash,
-    # lekin tartibni saqlash
+    # Takrorlarni olib tashlash
     regions = list(dict.fromkeys(regions))
 
-    # 0 ta viloyat topilsa
-    if len(regions) == 0:
+    # Viloyat topilmasa → General topic
+    if not regions:
         return [1]
 
-    # 1 ta yoki undan ko'p viloyat
     topics = []
 
     for region in regions[:2]:
@@ -32,9 +29,11 @@ def gettopic(text: str) -> list[int]:
         if topic is not None and topic not in topics:
             topics.append(topic)
 
-    # Viloyat topilgan, lekin topic_id jadvalida yo'q bo'lsa
+    # Viloyat topildi, lekin topic_id jadvalida yo'q
     if not topics:
         return [1]
+
+    return topics
 
 
 async def send_message(
@@ -60,7 +59,10 @@ async def send_message(
             response = await _client.post(url, data=payload)
             response.raise_for_status()
 
-            print(f"✅ Xabar yuborildi: topic_id={message_thread_id}")
+            print(
+                f"✅ Yuborildi: "
+                f"topic={message_thread_id}"
+            )
 
         except httpx.HTTPStatusError as e:
             print(
@@ -73,7 +75,7 @@ async def send_message(
 
         except Exception as e:
             print(
-                f"❌ Xabar yuborishda tarmoq xatoligi "
+                f"❌ Xabar yuborishda xatolik "
                 f"(topic={message_thread_id}): {e}"
             )
             all_success = False
