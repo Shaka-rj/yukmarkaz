@@ -1,13 +1,25 @@
-import sqlite3
+from telethon import TelegramClient
+from config import API_ID, API_HASH
 
-conn = sqlite3.connect("storage/yuklar.db")
-cursor = conn.cursor()
 
-try:
-    cursor.execute("ALTER TABLE yuklar ADD COLUMN yid INTEGER;")
-    conn.commit()
-    print("'yid' ustuni muvaffaqiyatli qo'shildi.")
-except sqlite3.OperationalError:
-    print("'yid' ustuni allaqachon mavjud yoki jadval topilmadi.")
+client = TelegramClient(
+    "target_worker",
+    API_ID,
+    API_HASH
+)
 
-conn.close()
+
+async def main():
+    await client.start()
+    print("target_worker.session muvaffaqiyatli autentifikatsiya qilindi.")
+
+    me = await client.get_me()
+
+    print(f"Account: {me.first_name}")
+    print(f"Username: @{me.username}" if me.username else "Username yo'q")
+
+    await client.disconnect()
+
+
+with client:
+    client.loop.run_until_complete(main())
