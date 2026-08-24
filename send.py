@@ -47,16 +47,15 @@ def gettopic(text: str) -> list[int]:
     return topics
 
 
-async def send_message(
-    text: str,
-    chat_id: int | str = MAIN_GROUP_ID
-) -> bool:
-
+async def send_message(text: str, chat_id: int | str = MAIN_GROUP_ID) -> bool:
     message_thread_ids = gettopic(text)
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
     all_success = True
+
+    if chat_id != MAIN_GROUP_ID:
+        message_thread_ids = [1]
 
     for message_thread_id in message_thread_ids:
         payload = {
@@ -69,7 +68,7 @@ async def send_message(
             payload = {
                 "chat_id": chat_id,
                 "text": text
-            }
+            }    
 
         try:
             response = await _client.post(url, data=payload)
