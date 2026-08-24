@@ -64,18 +64,19 @@ async def save_message(text: str, chat_id: int) -> bool:
     region_a = regions[0] if len(regions) >= 1 else None
     region_b = regions[1] if len(regions) >= 2 else None
 
-    # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
-    target_regions = {"Qashqadaryo", "Samarqand"}
-    if any(region in target_regions for region in regions):
-        await abbos_group(text)
-
     saved = await save_load_message(
         text=text, 
         region_a=region_a, 
         region_b=region_b,
         chat_id=chat_id
     )
-    
+
+    if saved:
+        # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
+        target_regions = {"Qashqadaryo", "Samarqand"}
+        if any(region in target_regions for region in regions):
+            await abbos_group(text)
+            
     return saved
 
 
