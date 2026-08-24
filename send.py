@@ -6,8 +6,19 @@ _client = httpx.AsyncClient(timeout=10)
 
 topic_id = {
     "Toshkent": 109539,
+    "Toshkent viloyati": 109729,    
     "Andijon": 109540,
     "Buxoro": 109555,
+    "Farg'ona": 109730,
+    "Jizzax": 109731,
+    "Xorazm": 109732,
+    "Namangan": 109735,
+    "Navoiy": 109736,
+    "Qashqadaryo": 109737,
+    "Qoraqalpog'iston": 109740,
+    "Samarqand": 109741,
+    "Sirdaryo": 109742,
+    "Surxondaryo": 109743
 }
 
 
@@ -63,11 +74,6 @@ async def send_message(
         try:
             response = await _client.post(url, data=payload)
             response.raise_for_status()
-
-            print(
-                f"✅ Yuborildi: "
-                f"topic={message_thread_id}"
-            )
 
         except httpx.HTTPStatusError as e:
             print(
