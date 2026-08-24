@@ -5,7 +5,6 @@ target_regions = {
 
     "Surxondaryo": [
         -101001115,
-        -100151515,
     ],
 
     "Farg'ona": [

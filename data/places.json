@@ -20,6 +20,8 @@
     "food city": "Toshkent",
     "futsiti": "Toshkent",
     "fut siti": "Toshkent",
+    "towken": "Toshkent",
+
 
 
     "toshkent viloyati": "Toshkent viloyati",
@@ -36,6 +38,7 @@
     "ohangaron": "Toshkent viloyati",
     "ohongaron": "Toshkent viloyati",
     "oxangaron": "Toshkent viloyati",
+    "axangaran": "Toshkent viloyati",
     "olmalik": "Toshkent viloyati",
     "oqkurgan": "Toshkent viloyati",
     "oqqorgan": "Toshkent viloyati",
@@ -56,6 +59,7 @@
     "zangiota": "Toshkent viloyati",
     "toshkent tumani": "Toshkent viloyati",
     "chirchiq": "Toshkent viloyati",
+    "chirchik": "Toshkent viloyati",
     "nurafshon": "Toshkent viloyati",
 
 
@@ -82,6 +86,7 @@
     "oltinkol": "Andijon",
     "paxtaobod": "Andijon",
     "shahrixon": "Andijon",
+    "shaxrixon": "Andijon",
     "ulug'nor": "Andijon",
     "ulugnor": "Andijon",
     "xonobod": "Andijon",
@@ -124,6 +129,7 @@
     "quvasoy": "Farg'ona",
     "quvosoy": "Farg'ona",
     "oltiariq": "Farg'ona",
+    "oltarik": "Farg'ona",
     "bag'dod": "Farg'ona",
     "bagdod": "Farg'ona",
     "beshariq": "Farg'ona",
@@ -249,6 +255,7 @@
     "shaxrisabz": "Qashqadaryo",
     "shaxrisabiz": "Qashqadaryo",
     "dehqonobod": "Qashqadaryo",
+    "dexkonobot": "Qashqadaryo",
     "g'uzor": "Qashqadaryo",
     "guzor": "Qashqadaryo",
     "kasbi": "Qashqadaryo",
@@ -274,6 +281,7 @@
     "qoraqalpogiston": "Qoraqalpog'iston",
     "qoraqalpoq": "Qoraqalpog'iston",
     "nukus": "Qoraqalpog'iston",
+    "nokis": "Qoraqalpog'iston",
     "nukus shahri": "Qoraqalpog'iston",
     "nukus tumani": "Qoraqalpog'iston",
     "amudaryo": "Qoraqalpog'iston",
@@ -312,6 +320,7 @@
     "bulung'ur": "Samarqand",
     "bulungur": "Samarqand",
     "jomboy": "Samarqand",
+    "jombay": "Samarqand",
     "ishtixon": "Samarqand",
     "kattaqo'rg'on tumani": "Samarqand",
     "qoshrabot": "Samarqand",
@@ -363,6 +372,7 @@
     "muzrabot": "Surxondaryo",
     "oltinsoy": "Surxondaryo",
     "qiziriq": "Surxondaryo",
+    "qizriq": "Surxondaryo",
     "qumqo'rg'on": "Surxondaryo",
     "qumqorgon": "Surxondaryo",
     "qumqorgan": "Surxondaryo",

@@ -55,6 +55,10 @@ blocked_words = [
     "омск",
     "германия",
     "алашанькоу",
+    "paravoz",
+    "паравоз",
+    "ref",
+    "реф",
 
     "olamiz",
     "оламиз",
@@ -65,6 +69,7 @@ blocked_words = [
     "tashiymiz",
     "boshladik",
     "xizmati",
+    "хизмати",
     "yuk kerak",
     "yuk kera",
     "yuk kk",
@@ -85,6 +90,7 @@ blocked_words = [
     "labo bor",
     "shineray bor",
     "labo hizmati",
+    "labo xizmati",
     "muddatli tulov",
     "yukchilar aloqaga",
     "xizmat qilamiz",
@@ -93,7 +99,13 @@ blocked_words = [
     "sotiladi",
     "сотилади",
     "юук булса",
-    "ташиймиз"
+    "ташиймиз",
+    "open",
+    "topib beramiz",
+    "ortamiz",
+    "joy bor",
+    "olamiz",
+    "оламиз"
 ]
 
 
@@ -103,7 +115,7 @@ other_countries = [
     "🇨🇳","🇰🇿","🇷🇺","🇹🇷","🇦🇿", "🇱🇹",
 
     # Rossiya
-    "rossiya", "россия", "russia", "🇷🇺",
+    "rossiya", "россия", "russia", "🇷🇺", "питер"
 
     "belarusya", "екатеринбург", "Вильнюс"
 
@@ -154,7 +166,7 @@ other_countries = [
     "gruziya", "грузия", "georgia", "🇬🇪",
 
     # Armaniston
-    "armaniston", "армении", "армения", "armenia", "🇦🇲",
+    "armaniston", "армении", "армения", "armenia", "🇦🇲", "душанбе",
 
     # Ozarbayjon
     "ozarbayjon", "azerbayjon", "азербайджан", "azerbaijan", "🇦🇿",
