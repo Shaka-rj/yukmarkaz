@@ -48,12 +48,17 @@ async def send_message(
     all_success = True
 
     for message_thread_id in message_thread_ids:
-
         payload = {
             "chat_id": chat_id,
             "text": text,
             "message_thread_id": message_thread_id
         }
+
+        if message_thread_id == 1:
+            payload = {
+                "chat_id": chat_id,
+                "text": text
+            }
 
         try:
             response = await _client.post(url, data=payload)
