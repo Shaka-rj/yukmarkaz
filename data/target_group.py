@@ -1,10 +1,11 @@
 target_regions = {
     "Qashqadaryo": [
         -1001753572530,
+        -1001463597740
     ],
 
     "Surxondaryo": [
-        -101001115,
+        -1001346493488 #@yukmarkaziSurxondaryo
     ],
 
     "Farg'ona": [
@@ -24,10 +25,15 @@ target_regions = {
     ],
 
     "Xorazm": [
-        -1002885810825
+        -1002885810825,
+        -1001231218176 #@nukus3xorazm9yuk1tashish
     ],
 
     "Buxoro": [
         -1002885810825
+    ],
+
+    "Samarqand": [
+        -1001324041984 #@anvarchik_93
     ]
 }
