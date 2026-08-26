@@ -59,6 +59,12 @@ blocked_words = [
     "паравоз",
     "ref",
     "реф",
+    "chakman",
+    "chacman",
+    "чакман",
+    "tanar",
+    "танар",
+    "plashadka",
 
     "olamiz",
     "оламиз",
@@ -74,6 +80,7 @@ blocked_words = [
     "yuk kera",
     "yuk kk",
     "йук кере",
+    "yuk kerek",
     "yuk bormi",
     "yuk busa",
     "yuk bulsa",
@@ -81,6 +88,9 @@ blocked_words = [
     "yuk alamiz",
     "kerak bolsa",
     "олиб кетамиз",
+    "olib keraman",
+    "олиб кайтаман",
+    "olib qaytamiz",
     "moshinalar tayyor",
     "plashadka",
     "plashatka",
@@ -115,7 +125,7 @@ other_countries = [
     "🇨🇳","🇰🇿","🇷🇺","🇹🇷","🇦🇿", "🇱🇹",
 
     # Rossiya
-    "rossiya", "россия", "russia", "🇷🇺", "питер"
+    "rossiya", "россия", "russia", "🇷🇺", "питер", "елабуга",
 
     "belarusya", "екатеринбург", "Вильнюс"
 
@@ -230,7 +240,7 @@ CYRILLIC_TO_LATIN = str.maketrans({
 
 # Taqiqlangan avtomobil va kalit so'zlar ro'yxati
 FORBIDDEN_WORDS = (
-    "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi", "izusi", "isuz", "izuse", "iszzu",
+    "isuzu", "isuzi", "izuzi", "esuzzi", "esuziy", "esuzi", "usuzi", "izusi", "isuz", "izuse", "iszzu", "isizu",
     "shacman", "shakman", "chakman", "kamaz", "samasval", "samosval",
     "pagruzchik", "traler", "trailer", "tiraller", "paravoz", "parovoz", 
     "shalanda", "ref", "reff", "plashatka", "katta moshin",
