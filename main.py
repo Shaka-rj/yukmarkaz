@@ -9,7 +9,7 @@ async def main():
     
     await asyncio.gather(
         start_reading(),                      # 1. Telegram xabarlarini o'qish (INSERT)
-        # run_bot(),                            # 2. Bot xizmati (SELECT)
+        run_bot(),                            # 2. Bot xizmati (SELECT)
         start_target_worker(),                # 3. Yangi e'lonlarni target guruhga yuborish
         start_cleaner(interval_seconds=3600)  # 4. Har 1 soatda bazani tozalash (DELETE)
     )
