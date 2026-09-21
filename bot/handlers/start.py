@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 
 from bot.database import add_user
 from bot.keyboards.reply import get_main_keyboard
-from bot.keyboards.inline import get_regions_keyboard
+from bot.keyboards.inline import get_regions_keyboard, get_regions_for_route_keyboard
 from bot.states import ElonState
 
 router = Router()
@@ -35,12 +35,12 @@ async def show_regions(message: Message, state: FSMContext):
         reply_markup=get_regions_keyboard()
     )
 
-@router.message(F.text == "🚚 Viloyat tanlash")
+@router.message(F.text == "🔀 Yunalishni tanlash")
 async def show_regions(message: Message, state: FSMContext):
-    await state.set_state(ElonState.choosing_region)
+    await state.set_state(ElonState.select_route)
     await message.answer(
-        "Viloyat buyicha yuklarni ko'rish",
-        reply_markup=get_regions_keyboard()
+        "1-nuqtani tanlang",
+        reply_markup=get_regions_for_route_keyboard()
     )
 
 @router.message(F.text == "/izlash")

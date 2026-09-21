@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # Import handlers
-from bot.handlers import start, elonlar
+from bot.handlers import start, elonlar, yunalish
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
@@ -17,6 +17,7 @@ dp = Dispatcher()
 # Routerlarni ulash
 dp.include_router(start.router)
 dp.include_router(elonlar.router)
+dp.include_router(yunalish.router)
 
 async def run_bot() -> None:
     print("Telegram Bot ishga tushdi...")

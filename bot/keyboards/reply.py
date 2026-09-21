@@ -4,7 +4,7 @@ def get_main_keyboard() -> ReplyKeyboardMarkup:
     keyboard = ReplyKeyboardMarkup(
         keyboard=[
             [KeyboardButton(text="📦 E'lonlarni ko'rish")],
-            [KeyboardButton(text="🚚 Viloyat tanlash")]
+            [KeyboardButton(text="🔀 Yunalishni tanlash")]
         ],
         resize_keyboard=True
     )

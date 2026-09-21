@@ -49,6 +49,52 @@ def get_elons_by_region(region: str, page: int = 1, limit: int = 5):
     
     return elons, total_pages, total_items
 
+def get_elons_by_route(region_a: str, region_b: str, page: int = 1, limit: int = 5):
+    """
+    Ikkala yo'nalish bo'yicha ham e'lonlarni olish:
+    1. region_a ➡️ region_b
+    2. region_b ➡️ region_a
+    """
+    offset = (page - 1) * limit
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # 1. Oxirgi 48 soat ichidagi har ikkala yo'nalishga mos e'lonlar sonini hisoblash
+    count_query = """
+        SELECT COUNT(*) as count 
+        FROM loads 
+        WHERE (
+            (region_a = ? AND region_b = ?) OR 
+            (region_a = ? AND region_b = ?)
+        )
+        AND created_at >= datetime('now', '-48 hours')
+    """
+    cursor.execute(count_query, (region_a, region_b, region_b, region_a))
+    total_items = cursor.fetchone()['count']
+    
+    # 2. Har ikkala yo'nalish bo'yicha e'lonlarni olish
+    select_query = """
+        SELECT id, message, region_a, region_b, created_at 
+        FROM loads 
+        WHERE (
+            (region_a = ? AND region_b = ?) OR 
+            (region_a = ? AND region_b = ?)
+        )
+        AND created_at >= datetime('now', '-48 hours')
+        ORDER BY id DESC 
+        LIMIT ? OFFSET ?
+    """
+    cursor.execute(select_query, (region_a, region_b, region_b, region_a, limit, offset))
+    elons = cursor.fetchall()
+    
+    conn.close()
+    
+    # Jami sahifalar sonini hisoblash
+    total_pages = (total_items + limit - 1) // limit if total_items > 0 else 1
+    
+    return elons, total_pages, total_items
+
 
 def add_user(chat_id: int) -> bool:
     """Yangi foydalanuvchini loyiha/storage/bot_users.db bazasiga saqlaydi."""
