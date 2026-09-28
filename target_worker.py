@@ -82,15 +82,7 @@ async def start_target_worker():
                     # E'lon aynan shu guruhdan olingan bo'lsa,
                     # qaytadan o'sha guruhga yubormaymiz
                     if from_id == target_chat_id:
-
-                        print(
-                            f"[SKIP] #{load_id} | "
-                            f"{region_a} | "
-                            f"source target guruhning o'zi"
-                        )
-
                         continue
-
                     try:
 
                         await client.send_message(
