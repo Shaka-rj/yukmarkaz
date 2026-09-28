@@ -6,6 +6,7 @@ from config import API_ID, API_HASH, SESSION_NAME, MAIN_GROUP_ID
 from send import send_message
 from writer import save_message
 from utils.filter import filter_message
+from data.blocked_users import blocked_users
 
 client = TelegramClient(SESSION_NAME, API_ID, API_HASH)
 
@@ -28,6 +29,9 @@ async def new_message(event):
             sender = await event.get_sender()
 
         if sender.bot:
+            return
+
+        if sender.id in blocked_users:
             return
 
         # Guruhni o'qilishi kerak deb belgilaymiz
