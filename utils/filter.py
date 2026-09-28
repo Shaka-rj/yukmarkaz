@@ -65,6 +65,7 @@ blocked_words = [
     "tanar",
     "танар",
     "plashadka",
+    "faw",
 
     "olamiz",
     "оламиз",
@@ -130,7 +131,7 @@ other_countries = [
     "belarusya", "екатеринбург", "Вильнюс"
 
     # Qozog‘iston
-    "qozog‘iston", "qozogiston", "казахстан", "kazakhstan", "🇰🇿", "bishkek", 
+    "qozog‘iston", "qozogiston", "казахстан", "kazakhstan", "🇰🇿", "bishkek", "chimkent", "almata",
 
     # Qirg‘iziston
     "qirg‘iziston", "qirgiziston", "киргизия", "кыргызстан",
