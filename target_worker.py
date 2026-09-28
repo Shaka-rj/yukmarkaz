@@ -75,7 +75,7 @@ async def start_target_worker():
             for load in loads:
 
                 load_id = load["id"]
-                message = format_phone(load["message"])
+                message = load["message"]
                 region_a = load["region_a"]
                 from_id = load["from_id"]
 
