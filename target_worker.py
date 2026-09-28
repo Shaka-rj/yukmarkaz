@@ -1,5 +1,6 @@
 import asyncio
 import aiosqlite
+import re
 
 from telethon import TelegramClient
 from pathlib import Path
@@ -12,6 +13,16 @@ DB_PATH = BASE_DIR / "storage" / "yuklar.db"
 
 client = TelegramClient("target_session", API_ID, API_HASH)
 
+
+
+def format_phone(text):
+    pattern = r'(?<!\d)(?:\+?998[\s\-]?)?(20|33|87|90|91|93|94|95|97|98|99|88|77|50)[\s\-]?(\d{3})[\s\-]?(\d{2})[\s\-]?(\d{2})(?!\d)'
+
+    return re.sub(
+        pattern,
+        lambda m: f"{m.group(1)} {m.group(2)} {m.group(3)} {m.group(4)}",
+        text
+    )
 
 async def get_new_loads(last_id):
     async with aiosqlite.connect(DB_PATH) as db:
@@ -64,7 +75,7 @@ async def start_target_worker():
             for load in loads:
 
                 load_id = load["id"]
-                message = load["message"]
+                message = format_phone(load["message"])
                 region_a = load["region_a"]
                 from_id = load["from_id"]
 
