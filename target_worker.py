@@ -1,6 +1,7 @@
 import asyncio
 import aiosqlite
 import re
+import random
 
 from telethon import TelegramClient
 from pathlib import Path
@@ -83,35 +84,33 @@ async def start_target_worker():
                 target_chats = target_regions.get(region_a)
 
                 if not target_chats:
-
                     last_id = load_id
                     continue
 
-                # E'lonni viloyatning barcha target guruhlariga yuborish
-                for target_chat_id in target_chats:
+                target_chats = [
+                    chat_id for chat_id in target_chats
+                    if chat_id != from_id
+                ]
+                
+                target_chat_id = random.choice(target_chats)
 
-                    # E'lon aynan shu guruhdan olingan bo'lsa,
-                    # qaytadan o'sha guruhga yubormaymiz
-                    if from_id == target_chat_id:
-                        continue
-                    try:
+                try:
 
-                        await client.send_message(
-                            target_chat_id,
-                            message
-                        )
+                    await client.send_message(
+                        target_chat_id,
+                        message
+                    )
 
-                        print(
-                            f"[SEND] #{load_id} | "
-                            f"{region_a} → {target_chat_id}"
-                        )
+                    print(
+                        f"[SEND] #{load_id} | "
+                        f"{region_a} → {target_chat_id}"
+                    )
 
-                    except Exception as e:
-
-                        print(
-                            f"[ERROR] #{load_id} | "
-                            f"{target_chat_id} | {e}"
-                        )
+                except Exception as e:
+                    print(
+                        f"[ERROR] #{load_id} | "
+                        f"{target_chat_id} | {e}"
+                    )                    
 
                 last_id = load_id
 
