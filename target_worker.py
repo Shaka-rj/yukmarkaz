@@ -76,7 +76,7 @@ async def start_target_worker():
             for load in loads:
 
                 load_id = load["id"]
-                message = load["message"]
+                message = format_phone(load["message"])
                 region_a = load["region_a"]
                 from_id = load["from_id"]
 
@@ -91,7 +91,7 @@ async def start_target_worker():
                     chat_id for chat_id in target_chats
                     if chat_id != from_id
                 ]
-                
+
                 target_chat_id = random.choice(target_chats)
 
                 try:
