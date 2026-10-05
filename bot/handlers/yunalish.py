@@ -6,6 +6,8 @@ from bot.keyboards.inline import get_regions_keyboard, get_elon_pagination_keybo
 from bot.states import ElonState
 from bot.database import get_elons_by_route
 
+from datetime import datetime, timedelta
+
 router = Router()
 
 def format_region_name(region: str) -> str:
@@ -44,7 +46,8 @@ def fetch_and_format_elons(region_a: str, region_b: str, page: int = 1):
         # sqlite3.Row orqali ushlab olinadi
         msg_text = elon['message'] if elon['message'] else "Matn mavjud emas"
         dt = datetime.strptime(elon['created_at'], "%Y-%m-%d %H:%M:%S")
-        date_str = dt + timedelta(hours=5)
+        dt_plus_5 = dt + timedelta(hours=5)
+        date_str = dt_plus_5.strftime("%Y-%m-%d %H:%M:%S")
 
         text += f"{msg_text}\n"
         text += f"🕒 <i>{date_str}</i>\n"
