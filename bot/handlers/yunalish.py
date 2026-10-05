@@ -43,11 +43,11 @@ def fetch_and_format_elons(region_a: str, region_b: str, page: int = 1):
     for idx, elon in enumerate(elons, start=1):
         # sqlite3.Row orqali ushlab olinadi
         msg_text = elon['message'] if elon['message'] else "Matn mavjud emas"
-        date_str = elon['created_at'] if elon['created_at'] else ""
+        dt = datetime.strptime(elon['created_at'], "%Y-%m-%d %H:%M:%S")
+        date_str = dt + timedelta(hours=5)
 
         text += f"{msg_text}\n"
-        if date_str:
-            text += f"🕒 <i>{date_str}</i>\n"
+        text += f"🕒 <i>{date_str}</i>\n"
         text += "───────────────────\n"
         
     return text, total_pages
