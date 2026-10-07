@@ -10,10 +10,6 @@ target_regions = {
         -1001346493488 #@yukmarkaziSurxondaryo
     ],
 
-    "Farg'ona": [
-        -1001999017526
-    ],
-
     "Andijon": [
         -1001999017526
     ],

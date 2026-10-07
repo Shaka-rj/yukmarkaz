@@ -14,3 +14,5 @@ ABBOS_GROUP_ID = int(os.getenv("ABBOS_GROUP_ID", 0))
 
 
 SESSION_NAME = os.getenv("SESSION_NAME", "")
+
+AI_API_KEY=os.getenv("AI_API_KEY", "")

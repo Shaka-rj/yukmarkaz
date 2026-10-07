@@ -2,10 +2,11 @@ import hashlib
 import aiosqlite
 from pathlib import Path
 from utils.region_detector import find_regions
-from config import ABBOS_GROUP_ID
+from config import ABBOS_GROUP_ID, AI_API_KEY
 from send import send_message
 import re
 from utils.filter import mini_cars
+from utils.ai_filter import analyze_load
 from datetime import datetime, timedelta, timezone
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -74,14 +75,24 @@ async def save_message(text: str, chat_id: int) -> bool:
     if saved:
         # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
         target_regions = {"Qashqadaryo", "Samarqand"}
-        if any(region in target_regions for region in regions):
-            await abbos_group(text)
-            
+        #if any(region in target_regions for region in regions):
+            #await abbos_group(text)  
     return saved
-
+  
 
 async def abbos_group(text: str) -> bool:
     if mini_cars(text):
         return False
-        
-    return await send_message(text, chat_id=ABBOS_GROUP_ID)
+
+    result = analyze_load(text, AI_API_KEY)
+
+    if result.startswith("HA |"):
+        short_text = result[5:].strip()
+
+        text = f"{short_text}</b>\n\n{text}"
+
+        return await send_message(text, chat_id=ABBOS_GROUP_ID)  
+    elif result.startswith("XATO"):
+        return await send_message(text, chat_id=ABBOS_GROUP_ID)
+    else:
+        return await send_message("aa", chat_id=ABBOS_GROUP_ID)

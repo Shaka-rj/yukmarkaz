@@ -49,9 +49,6 @@ async def get_new_loads(last_id):
 
 
 async def start_target_worker():
-
-    print("Target worker ishga tushmoqda...")
-
     await client.start()
 
     print("Target session ishga tushdi.")
@@ -92,6 +89,10 @@ async def start_target_worker():
                     if chat_id != from_id
                 ]
 
+                if not target_chats:
+                    last_id = load_id
+                    continue
+
                 target_chat_id = random.choice(target_chats)
 
                 try:
@@ -100,12 +101,7 @@ async def start_target_worker():
                         target_chat_id,
                         message
                     )
-
-                    print(
-                        f"[SEND] #{load_id} | "
-                        f"{region_a} → {target_chat_id}"
-                    )
-
+                    
                 except Exception as e:
                     print(
                         f"[ERROR] #{load_id} | "
