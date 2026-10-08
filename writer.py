@@ -75,8 +75,8 @@ async def save_message(text: str, chat_id: int) -> bool:
     if saved:
         # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
         target_regions = {"Qashqadaryo", "Samarqand"}
-        #if any(region in target_regions for region in regions):
-            #await abbos_group(text)  
+        if any(region in target_regions for region in regions):
+            await abbos_group(text)  
     return saved
   
 
@@ -86,13 +86,12 @@ async def abbos_group(text: str) -> bool:
 
     result = analyze_load(text, AI_API_KEY)
 
-    if result.startswith("HA |"):
-        short_text = result[5:].strip()
+    print(result)
 
-        text = f"{short_text}</b>\n\n{text}"
-
+    if result.startswith("HA"):
         return await send_message(text, chat_id=ABBOS_GROUP_ID)  
     elif result.startswith("XATO"):
         return await send_message(text, chat_id=ABBOS_GROUP_ID)
     else:
-        return await send_message("aa", chat_id=ABBOS_GROUP_ID)
+        print(result + text)
+        return False

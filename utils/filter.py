@@ -33,7 +33,6 @@ def _is_duplicate_recent(text: str, interval_seconds: int = 600) -> bool:
 blocked_words = [
     "reklama",
     "spam",
-    "test",
     "астрахан",
     "волгоград",
     "беларус",
@@ -183,6 +182,22 @@ other_countries = [
     "ozarbayjon", "azerbayjon", "азербайджан", "azerbaijan", "🇦🇿",
 ]
 
+
+phone_pattern = r"""
+    (?:
+        \+?998[\s\-]?
+    )?
+    (?:
+        (?:20|33|87|90|91|93|94|95|97|98|99|88|77|50)
+    )
+    [\s\-]?
+    \d{3}
+    [\s\-]?
+    \d{2}
+    [\s\-]?
+    \d{2}
+"""
+
 def filter_message(text):
     if not text:
         return False
@@ -204,28 +219,10 @@ def filter_message(text):
         if country.lower() in text_lower:
             return False
 
-
-    # 2. O'zbekiston telefon raqami qidirish
-    phone_pattern = r"""
-        (?:
-            \+?998[\s\-]?
-        )?
-        (?:
-            (?:20|33|87|90|91|93|94|95|97|98|99|88|77|50)
-        )
-        [\s\-]?
-        \d{3}
-        [\s\-]?
-        \d{2}
-        [\s\-]?
-        \d{2}
-    """
-
     if re.search(phone_pattern, text, re.VERBOSE):
         return True
 
     return False
-
 
 ################ kichkina mashinalar uchun
 
@@ -304,3 +301,10 @@ def mini_cars(text: str) -> bool:
     """Matnni lotinchaga o'tkazib, taqiqlangan avtomobil nomlarini izlaydi."""
     normalized_text = text.lower().translate(CYRILLIC_TO_LATIN)
     return bool(FORBIDDEN_VEHICLES_PATTERN.search(normalized_text))
+
+def normal_cars(text: str) -> bool:
+    weight = extract_max_weight(text)
+    if weight is not None and weight > 15:
+        return True
+
+    return False

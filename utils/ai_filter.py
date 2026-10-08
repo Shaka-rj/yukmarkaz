@@ -6,7 +6,7 @@ SYSTEM_PROMPT = """
 Yuk e'lonini tahlil qil.
 
 Mos bo'lsa:
-HA | JO'NASH → BORISH | YUK
+HA
 
 Mos bo'lmasa:
 YO'Q
@@ -24,7 +24,6 @@ Mos emas:
 - kichik mashinaga sig'maydigan yuk
 
 Telefon, narx va ortiqcha gaplarni olib tashla.
-Shahar va viloyat nomlarini to'g'rila.
 Faqat bitta qator javob ber.
 """
 
@@ -43,7 +42,7 @@ def analyze_load(ad_text: str, api_key: str) -> str:
 
         result = response.output_text.strip()
 
-        if result.startswith("HA |"):
+        if result.startswith("HA"):
             return result
 
         if result == "YO'Q" or result == "YO‘Q":

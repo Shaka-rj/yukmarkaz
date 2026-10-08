@@ -1,6 +1,8 @@
+import re
 import httpx
 from config import BOT_TOKEN, MAIN_GROUP_ID
 from utils.region_detector import find_regions
+
 
 _client = httpx.AsyncClient(timeout=10)
 
