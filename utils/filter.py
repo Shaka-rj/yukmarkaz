@@ -115,7 +115,9 @@ blocked_words = [
     "ortamiz",
     "joy bor",
     "olamiz",
-    "оламиз"
+    "оламиз",
+
+    "775011792"
 ]
 
 
