@@ -42,6 +42,7 @@ blocked_words = [
     "ekaterin",
     "serov",
     "tent",
+    "тенд",
     "fura",
     "тент",
     "фура",
@@ -82,6 +83,7 @@ blocked_words = [
     "йук кере",
     "yuk kerek",
     "yuk bormi",
+    "юк булса",
     "yuk busa",
     "yuk bulsa",
     "yuk olaman",
@@ -98,6 +100,7 @@ blocked_words = [
     "kishi bor",
     "kishi olamiz",
     "labo bor",
+    "лабо бор",
     "shineray bor",
     "labo hizmati",
     "labo xizmati",
@@ -117,7 +120,8 @@ blocked_words = [
     "olamiz",
     "оламиз",
 
-    "775011792"
+    "775011792",
+    "904400208"
 ]
 
 

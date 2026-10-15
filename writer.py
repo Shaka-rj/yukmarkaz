@@ -72,11 +72,11 @@ async def save_message(text: str, chat_id: int) -> bool:
         chat_id=chat_id
     )
 
-    if saved:
+    '''if saved:
         # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
         target_regions = {"Qashqadaryo", "Samarqand"}
         if any(region in target_regions for region in regions):
-            await abbos_group(text)  
+            await abbos_group(text) '''
     return saved
   
 
