@@ -33,7 +33,7 @@ dp = Dispatcher()
 
 # QOIDALARNI YUKLASH
 def load_rules():
-    with open("rules.json", "r", encoding="utf-8") as f:
+    with open(BASE_DIR / "rules.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 

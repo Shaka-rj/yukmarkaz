@@ -108,7 +108,7 @@ blocked_words = [
     "yukchilar aloqaga",
     "xizmat qilamiz",
 
-
+    "sotilodi",
     "sotiladi",
     "сотилади",
     "юук булса",
