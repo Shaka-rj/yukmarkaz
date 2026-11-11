@@ -107,6 +107,8 @@ blocked_words = [
     "muddatli tulov",
     "yukchilar aloqaga",
     "xizmat qilamiz",
+    "bez zaks",
+    "faf ",
 
     "sotilodi",
     "sotiladi",
@@ -123,7 +125,8 @@ blocked_words = [
     "775011792",
     "904400208",
     "939322605",
-    "68-58"
+    "68-58",
+    "885098787"
 ]
 
 
