@@ -133,7 +133,7 @@ other_countries = [
     "🇨🇳","🇰🇿","🇷🇺","🇹🇷","🇦🇿", "🇱🇹",
 
     # Rossiya
-    "rossiya", "россия", "russia", "🇷🇺", "питер", "елабуга",
+    "rossiya", "россия", "russia", "🇷🇺", "питер", "елабуга", "yekekternburg",
 
     "belarusya", "екатеринбург", "Вильнюс"
 
@@ -316,3 +316,8 @@ def normal_cars(text: str) -> bool:
         return True
 
     return False
+
+def remove_phone(text: str) -> str:
+    text = re.sub(phone_pattern, "", text, flags=re.VERBOSE)
+    text = re.sub(r'\s{2,}', ' ', text)
+    return text.strip()

@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 
 from bot.keyboards.inline import get_regions_keyboard, get_elon_pagination_keyboard
 from bot.states import ElonState
+from bot.billing import require_access
 from bot.database import get_elons_by_region
 
 from datetime import datetime, timedelta
@@ -60,6 +61,8 @@ def fetch_and_format_elons(region: str, page: int = 1):
 # 1. Viloyat tanlanganda
 @router.callback_query(F.data.startswith("region:"))
 async def process_region_selection(callback: CallbackQuery, state: FSMContext):
+    if not await require_access(callback):
+        return
     region = callback.data.split(":")[1]
     await state.update_data(selected_region=region)
     await state.set_state(ElonState.viewing_elons)
@@ -76,6 +79,8 @@ async def process_region_selection(callback: CallbackQuery, state: FSMContext):
 # 2. Sahifalarni o'tkazish (Oldingi / Keyingi)
 @router.callback_query(F.data.startswith("page:"))
 async def process_pagination(callback: CallbackQuery):
+    if not await require_access(callback):
+        return
     _, region, page = callback.data.split(":")
     page = int(page)
     
@@ -91,6 +96,8 @@ async def process_pagination(callback: CallbackQuery):
 # 3. Yangilash tugmasi
 @router.callback_query(F.data.startswith("refresh:"))
 async def process_refresh(callback: CallbackQuery):
+    if not await require_access(callback):
+        return
     # Callback ma'lumotidan viloyatni ajratib olamiz
     # Eslatma: 'page' ajratib olinsa ham, baribir 1-sahifaga o'tamiz
     _, region, _ = callback.data.split(":")
@@ -114,6 +121,8 @@ async def process_refresh(callback: CallbackQuery):
 # 4. Boshqa viloyatni tanlash tugmasi
 @router.callback_query(F.data == "change_region")
 async def process_change_region(callback: CallbackQuery, state: FSMContext):
+    if not await require_access(callback):
+        return
     await state.set_state(ElonState.choosing_region)
     await callback.message.edit_text(
         "Kerakli viloyatni tanlang:",
@@ -123,4 +132,6 @@ async def process_change_region(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data == "noop")
 async def process_noop(callback: CallbackQuery):
+    if not await require_access(callback):
+        return
     await callback.answer()

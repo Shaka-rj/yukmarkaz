@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 
 from bot.keyboards.inline import get_regions_keyboard, get_elon_pagination_keyboard_route, get_regions_for_b_route_keyboard, get_regions_for_route_keyboard
 from bot.states import ElonState
+from bot.billing import require_access
 from bot.database import get_elons_by_route
 
 from datetime import datetime, timedelta
@@ -58,6 +59,8 @@ def fetch_and_format_elons(region_a: str, region_b: str, page: int = 1):
 # 1. Yunalishda a nuqta tanlanganda
 @router.callback_query(F.data.startswith("a:"))
 async def process_region_a_selection(callback: CallbackQuery, state: FSMContext):
+    if not await require_access(callback):
+        return
     region = callback.data.split(":")[1]
     await state.update_data(region_a=region)
 
@@ -72,6 +75,8 @@ async def process_region_a_selection(callback: CallbackQuery, state: FSMContext)
 # 2 Yunalishda b nuqta tanlanganda elonlarni kursatish
 @router.callback_query(F.data.startswith("b:"))
 async def process_region_b_selection(callback: CallbackQuery, state: FSMContext):
+    if not await require_access(callback):
+        return
     region_b = callback.data.split(":")[1]
     await state.update_data(region_b=region_b)
 
@@ -94,6 +99,8 @@ async def process_region_b_selection(callback: CallbackQuery, state: FSMContext)
 # 3. Sahifalarni o'tkazish (Oldingi / Keyingi)
 @router.callback_query(F.data.startswith("page_r:"))
 async def process_pagination(callback: CallbackQuery):
+    if not await require_access(callback):
+        return
     _, region_a, region_b, page = callback.data.split(":")
     page = int(page)
     
@@ -110,6 +117,8 @@ async def process_pagination(callback: CallbackQuery):
 # 4. Yangilash tugmasi
 @router.callback_query(F.data.startswith("refresh_r:"))
 async def process_refresh(callback: CallbackQuery):
+    if not await require_access(callback):
+        return
     # Callback ma'lumotidan viloyatni ajratib olamiz
     # Eslatma: 'page' ajratib olinsa ham, baribir 1-sahifaga o'tamiz
     _, region_a, region_b, _ = callback.data.split(":")
@@ -133,6 +142,8 @@ async def process_refresh(callback: CallbackQuery):
 # 4. Boshqa viloyatni tanlash tugmasi
 @router.callback_query(F.data == "change_region_r")
 async def process_change_region(callback: CallbackQuery, state: FSMContext):
+    if not await require_access(callback):
+        return
     await state.set_state(ElonState.select_route)
     await callback.message.edit_text(
         "1-nuqtani tanlang:",
@@ -142,4 +153,6 @@ async def process_change_region(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data == "noop")
 async def process_noop(callback: CallbackQuery):
+    if not await require_access(callback):
+        return
     await callback.answer()

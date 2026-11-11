@@ -3,7 +3,7 @@ import aiosqlite
 from pathlib import Path
 from utils.region_detector import find_regions
 from config import ABBOS_GROUP_ID, AI_API_KEY
-from send import send_message
+from send import send_message, send_message2
 import re
 from utils.filter import mini_cars
 from utils.ai_filter import analyze_load
@@ -30,7 +30,7 @@ async def is_duplicate(db: aiosqlite.Connection, message_hash: str) -> bool:
         return row is not None
 
 
-async def save_load_message(text: str, region_a: str = None, region_b: str = None, chat_id: int = 0) -> bool:
+async def save_load_message(text: str, region_a: str = None, region_b: str = None, chat_id: int = 0) -> int | bool:
     msg_hash = get_md5(text)
     now_uzb = datetime.now(UZB_TZ)
     today_uzb = now_uzb.strftime("%Y-%m-%d")
@@ -41,8 +41,8 @@ async def save_load_message(text: str, region_a: str = None, region_b: str = Non
 
         async with db.execute(
             """
-            SELECT COUNT(*) 
-            FROM loads 
+            SELECT COUNT(*)
+            FROM loads
             WHERE DATE(created_at, '+5 hours') = DATE(?)
             """,
             (today_uzb,),
@@ -51,13 +51,14 @@ async def save_load_message(text: str, region_a: str = None, region_b: str = Non
 
         yid = count + 1
 
-        # 2. Yangi xabar bo'lsa bazaga yozamiz
-        await db.execute("""
+        async with db.execute("""
             INSERT INTO loads (message, message_hash, region_a, region_b, yid, from_id)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (text, msg_hash, region_a, region_b, yid, chat_id))
+        """, (text, msg_hash, region_a, region_b, yid, chat_id)) as cursor:
+            new_id = cursor.lastrowid
+
         await db.commit()
-        return True
+        return new_id
 
 async def save_message(text: str, chat_id: int) -> bool:
     regions = find_regions(text)  # ["Toshkent"], ["Qashqadaryo", "Samarqand"] va hokazo
@@ -65,19 +66,19 @@ async def save_message(text: str, chat_id: int) -> bool:
     region_a = regions[0] if len(regions) >= 1 else None
     region_b = regions[1] if len(regions) >= 2 else None
 
-    saved = await save_load_message(
+    load_id = await save_load_message(
         text=text, 
         region_a=region_a, 
         region_b=region_b,
         chat_id=chat_id
     )
 
-    if saved:
+    if load_id:
         # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
         target_regions = {"Qashqadaryo", "Samarqand"}
         if any(region in target_regions for region in regions):
             await abbos_group(text)
-    return saved
+    return load_id
   
 
 async def abbos_group(text: str) -> bool:
@@ -89,9 +90,9 @@ async def abbos_group(text: str) -> bool:
     print(result)
 
     if result.startswith("HA"):
-        return await send_message(text, chat_id=ABBOS_GROUP_ID)  
+        return await send_message2(text, chat_id=ABBOS_GROUP_ID)  
     elif result.startswith("XATO"):
-        return await send_message(text, chat_id=ABBOS_GROUP_ID)
+        return await send_message2(text, chat_id=ABBOS_GROUP_ID)
     else:
         print(result + text)
         return False

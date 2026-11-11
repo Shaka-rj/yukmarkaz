@@ -36,15 +36,16 @@ async def new_message(event):
             return
 
         if normal_cars(text):
-            re
+            return
 
-        # Guruhni o'qilishi kerak deb belgilaymiz
+        load_id = await save_message(text, chat_id)
+
+        if not load_id:
+            return
+
+        await send_message(text, load_id)
+
         pending_reads.add(chat_id)
-
-        await asyncio.gather(
-            send_message(text),
-            save_message(text, chat_id)
-        )
 
     except Exception as e:
         print("Xabar qayta ishlashda xatolik:", e)
@@ -66,8 +67,6 @@ async def read_worker():
         )
 
 async def start_reading():
-    """Internet uzilsa avtomatik qayta ulanadi."""
-
     worker_task = None
 
     while True:

@@ -95,6 +95,19 @@ def get_elons_by_route(region_a: str, region_b: str, page: int = 1, limit: int =
     
     return elons, total_pages, total_items
 
+def get_load_by_id(load_id: int):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT id, message FROM loads WHERE id = ?",
+        (load_id,)
+    )
+
+    result = cursor.fetchone()
+    conn.close()
+
+    return result
 
 def add_user(chat_id: int) -> bool:
     """Yangi foydalanuvchini loyiha/storage/bot_users.db bazasiga saqlaydi."""
