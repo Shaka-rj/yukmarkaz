@@ -2,7 +2,7 @@ import re
 import httpx
 from config import BOT_TOKEN, MAIN_GROUP_ID
 from utils.region_detector import find_regions
-from utils.filter import remove_phone
+from utils.filter import remove_phone, get_phone
 
 
 _client = httpx.AsyncClient(timeout=10)
@@ -57,6 +57,8 @@ def gettopic(text: str, type_group: int) -> list[int]:
     for region in regions[:2]:
         if type_group == 2:
             topic = topic_id2.get(region)
+        else:
+            topic = topic_id.get(region)
 
         if topic is not None and topic not in topics:
             topics.append(topic)
@@ -96,17 +98,10 @@ async def send_message(
                 }
             }
         else:
+            phone = get_phone(text)
             payload = {
                 "chat_id": chat_id,
-                "text": text,
-                "reply_markup": {
-                    "inline_keyboard": [[
-                        {
-                            "text": "📞 📞 📞 📞",
-                            "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
-                        }
-                    ]]
-                }
+                "text": text
             } 
 
         if message_thread_id != 1:

@@ -10,6 +10,7 @@ API_HASH = os.getenv("API_HASH", "")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 MAIN_GROUP_ID = int(os.getenv("MAIN_GROUP_ID", 0))
+PREMIUM_GROUP_ID = int(os.getenv("PREMIUM_GROUP_ID", 0))
 ABBOS_GROUP_ID = int(os.getenv("ABBOS_GROUP_ID", 0))
 
 
