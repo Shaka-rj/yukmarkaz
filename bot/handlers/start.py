@@ -38,8 +38,9 @@ async def cmd_start(
 
             if load:
                 await message.answer(
-                    f"{load['message']}\n\n<a href='{load['message']}'>📞:::::::📞</a>",
-                    reply_markup=get_main_keyboard()
+                    f"{load['message']}\n\n<a href='{get_phone(load['message'])}'>📞:::::::📞</a>",
+                    reply_markup=get_main_keyboard(),
+                    parse_mode="HTML"
                 )
             else:
                 await message.answer(
