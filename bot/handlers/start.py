@@ -1,6 +1,6 @@
 from aiogram import Router, F
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.context import FSMContext
 
 from bot.database import add_user
@@ -38,9 +38,10 @@ async def cmd_start(
 
             if load:
                 await message.answer(
-                    f"{load['message']}\n\n<a href='t.me/{get_phone(load['message'])}'>📞:::::::📞</a>",
-                    reply_markup=get_main_keyboard(),
-                    parse_mode="HTML"
+                    f"{load['message']}",
+                    reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
+                        InlineKeyboardButton(text="📞 Qo'ng'iroq 📞", url=f"https://69402d3fcda26.xvest6.ru/tel.html?phone={get_phone(load['message'])}")
+                    ]]),
                 )
             else:
                 await message.answer(
