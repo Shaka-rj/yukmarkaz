@@ -3,7 +3,7 @@ import logging
 from telethon import TelegramClient, events
 import re
 
-from config import API_ID, API_HASH, SESSION_NAME, MAIN_GROUP_ID
+from config import API_ID, API_HASH, SESSION_NAME, MAIN_GROUP_ID, PREMIUM_GROUP_ID
 from send import send_message
 from writer import save_message
 from utils.filter import filter_message, normal_cars
@@ -37,6 +37,8 @@ async def new_message(event):
 
         if normal_cars(text):
             return
+
+        await send_message(text, 1, PREMIUM_GROUP_ID, 2)
 
         load_id = await save_message(text, chat_id)
 

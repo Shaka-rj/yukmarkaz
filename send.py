@@ -24,8 +24,25 @@ topic_id = {
     "Surxondaryo": 109743
 }
 
+topic_id2 = {
+    "Toshkent": 14,
+    "Toshkent viloyati": 15,    
+    "Andijon": 2,
+    "Buxoro": 3,
+    "Farg'ona": 4,
+    "Jizzax": 5,
+    "Xorazm": 6,
+    "Namangan": 7,
+    "Navoiy": 8,
+    "Qashqadaryo": 9,
+    "Qoraqalpog'iston": 10,
+    "Samarqand": 11,
+    "Sirdaryo": 12,
+    "Surxondaryo": 13
+}
 
-def gettopic(text: str) -> list[int]:
+
+def gettopic(text: str, type_group: int) -> list[int]:
     regions = find_regions(text) or []
 
     # Takrorlarni olib tashlash
@@ -38,7 +55,8 @@ def gettopic(text: str) -> list[int]:
     topics = []
 
     for region in regions[:2]:
-        topic = topic_id.get(region)
+        if type_group == 2:
+            topic = topic_id2.get(region)
 
         if topic is not None and topic not in topics:
             topics.append(topic)
@@ -53,32 +71,43 @@ def gettopic(text: str) -> list[int]:
 async def send_message(
     text: str,
     load_id: int,
-    chat_id: int | str = MAIN_GROUP_ID
+    chat_id: int | str = MAIN_GROUP_ID,
+    type_group: int | int = 1,  # 2 - premium
 ) -> bool:
 
-    message_thread_ids = gettopic(text)
+    message_thread_ids = gettopic(text, type_group)
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
     all_success = True
 
-    if chat_id != MAIN_GROUP_ID:
-        message_thread_ids = [1]
-
     for message_thread_id in message_thread_ids:
-
-        payload = {
-            "chat_id": chat_id,
-            "text": remove_phone(text),
-            "reply_markup": {
-                "inline_keyboard": [[
-                    {
-                        "text": "📞 Nomer ko'rish 📞",
-                        "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
-                    }
-                ]]
+        if type_group == 1:
+            payload = {
+                "chat_id": chat_id,
+                "text": remove_phone(text),
+                "reply_markup": {
+                    "inline_keyboard": [[
+                        {
+                            "text": "📞 Nomer ko'rish 📞",
+                            "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
+                        }
+                    ]]
+                }
             }
-        }
+        else:
+            payload = {
+                "chat_id": chat_id,
+                "text": text,
+                "reply_markup": {
+                    "inline_keyboard": [[
+                        {
+                            "text": "📞 📞 📞 📞",
+                            "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
+                        }
+                    ]]
+                }
+            } 
 
         if message_thread_id != 1:
             payload["message_thread_id"] = message_thread_id
