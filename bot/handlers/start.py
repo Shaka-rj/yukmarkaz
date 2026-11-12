@@ -10,6 +10,7 @@ from bot.keyboards.inline import get_regions_keyboard, get_regions_for_route_key
 from bot.states import ElonState
 from aiogram.filters import CommandObject
 from bot.database import get_load_by_id
+from utils.filter import get_phone
 
 router = Router()
 
@@ -37,7 +38,7 @@ async def cmd_start(
 
             if load:
                 await message.answer(
-                    f"{load['message']}",
+                    f"{load['message']}\n\n<a href='{load['message']}'>📞:::::::📞</a>",
                     reply_markup=get_main_keyboard()
                 )
             else:
