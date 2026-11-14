@@ -87,8 +87,6 @@ async def abbos_group(text: str) -> bool:
 
     result = analyze_load(text, AI_API_KEY)
 
-    print(result)
-
     if result.startswith("HA"):
         return await send_message2(text, chat_id=ABBOS_GROUP_ID)  
     elif result.startswith("XATO"):

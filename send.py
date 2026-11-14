@@ -42,7 +42,7 @@ topic_id2 = {
 }
 
 
-def gettopic(text: str, type_group: int) -> list[int]:
+def gettopic(text: str) -> list[int]:
     regions = find_regions(text) or []
 
     # Takrorlarni olib tashlash
@@ -55,15 +55,11 @@ def gettopic(text: str, type_group: int) -> list[int]:
     topics = []
 
     for region in regions[:2]:
-        if type_group == 2:
-            topic = topic_id2.get(region)
-        else:
-            topic = topic_id.get(region)
+        topic = topic_id.get(region)
 
         if topic is not None and topic not in topics:
             topics.append(topic)
 
-    # Viloyat topildi, lekin topic_id jadvalida yo'q
     if not topics:
         return [1]
 
@@ -73,36 +69,28 @@ def gettopic(text: str, type_group: int) -> list[int]:
 async def send_message(
     text: str,
     load_id: int,
-    chat_id: int | str = MAIN_GROUP_ID,
-    type_group: int | int = 1,  # 2 - premium
+    chat_id: int | str = MAIN_GROUP_ID
 ) -> bool:
 
-    message_thread_ids = gettopic(text, type_group)
+    message_thread_ids = gettopic(text)
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
     all_success = True
 
     for message_thread_id in message_thread_ids:
-        if type_group == 1:
-            payload = {
-                "chat_id": chat_id,
-                "text": remove_phone(text),
-                "reply_markup": {
-                    "inline_keyboard": [[
-                        {
-                            "text": "📞 Nomer ko'rish 📞",
-                            "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
-                        }
-                    ]]
-                }
+        payload = {
+            "chat_id": chat_id,
+            "text": remove_phone(text),
+            "reply_markup": {
+                "inline_keyboard": [[
+                    {
+                        "text": "📞 Nomer ko'rish 📞",
+                        "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
+                    }
+                ]]
             }
-        else:
-            phone = get_phone(text)
-            payload = {
-                "chat_id": chat_id,
-                "text": text
-            } 
+        }
 
         if message_thread_id != 1:
             payload["message_thread_id"] = message_thread_id
