@@ -23,12 +23,21 @@ async def cmd_start(
     await state.clear()
     add_user(chat_id=message.chat.id)
 
+    # Oddiy /start
+    if not command.args:
+        await message.answer(
+            "Assalomu alaykum! 👋\nBotimizga xush kelibsiz.",
+            reply_markup=get_main_keyboard()
+        )
+        return
+
     if not await require_access(message):
         await message.answer(
             '💳 Balansni ko‘rish yoki to‘ldirish uchun «Balans» tugmasini bosing.',
             reply_markup=get_main_keyboard()
         )
         return
+
 
     # Start orqali kelgan yuk ID
     if command.args:
