@@ -3,7 +3,8 @@ import httpx
 from config import BOT_TOKEN, MAIN_GROUP_ID
 from utils.region_detector import find_regions
 from utils.filter import remove_phone, get_phone
-
+import asyncio
+from utils.voice import send_voice
 
 _client = httpx.AsyncClient(timeout=10)
 
@@ -98,6 +99,19 @@ async def send_message(
         try:
             response = await _client.post(url, json=payload)
             response.raise_for_status()
+            '''data = response.json()
+
+            if data.get("ok"):
+                message_id = data["result"]["message_id"]
+
+                asyncio.create_task(
+                    send_voice(
+                        chat_id=chat_id,
+                        message_id=message_id,
+                        text=remove_phone(text),
+                        topic_id=message_thread_id
+                    )
+                )'''
 
         except httpx.HTTPStatusError as e:
             print(
