@@ -49,7 +49,7 @@ async def cmd_start(
                 await message.answer(
                     f"{load['message']}",
                     reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
-                        InlineKeyboardButton(text="📞 Qo'ng'iroq 📞", url=f"https://69402d3fcda26.xvest6.ru/tel.html?phone={get_phone(load['message'])}", style="success")
+                        InlineKeyboardButton(text="📞 Qo'ng'iroq 📞", url=f"https://2l.uz/yuk_markaz.html?phone={get_phone(load['message'])}", style="success")
                     ]]),
                 )
             else:
