@@ -6,7 +6,6 @@ from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKe
 from aiogram.fsm.state import State, StatesGroup
 from bot.billing import admin_add_balance
 from aiogram.filters.command import CommandObject
-from config import PAYNET_URL
 
 from bot.billing import (
     get_account, create_receipt, review_receipt, format_money,
