@@ -6,7 +6,7 @@ import re
 from config import API_ID, API_HASH, SESSION_NAME, MAIN_GROUP_ID, PREMIUM_GROUP_ID
 from send import send_message
 from writer import save_message
-from utils.filter import filter_message, normal_cars
+from utils.filter import filter_message, normal_cars, mini_cars
 from data.blocked_users import blocked_users
 
 client = TelegramClient(SESSION_NAME, API_ID, API_HASH)
@@ -38,7 +38,13 @@ async def new_message(event):
         if normal_cars(text):
             return
 
-        load_id = await save_message(text, chat_id)
+        username = sender.username
+
+        load_id = await save_message(
+            text=text,
+            chat_id=chat_id,
+            username=username
+        )
 
         if not load_id:
             return

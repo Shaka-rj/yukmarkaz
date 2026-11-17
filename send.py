@@ -1,8 +1,9 @@
 import re
 import httpx
-from config import BOT_TOKEN, MAIN_GROUP_ID
+from config import BOT_TOKEN, MAIN_GROUP_ID, PREMIUM_GROUP_ID, AI_API_KEY
 from utils.region_detector import find_regions
-from utils.filter import remove_phone, get_phone
+from utils.filter import remove_phone, get_phone, mini_cars
+from utils.ai_filter import analyze_load
 import asyncio
 from utils.voice import send_voice
 
@@ -43,7 +44,7 @@ topic_id2 = {
 }
 
 
-def gettopic(text: str) -> list[int]:
+def gettopic(text: str, listid: int) -> list[int]:
     regions = find_regions(text) or []
 
     # Takrorlarni olib tashlash
@@ -56,7 +57,10 @@ def gettopic(text: str) -> list[int]:
     topics = []
 
     for region in regions[:2]:
-        topic = topic_id.get(region)
+        if listid == 1:
+            topic = topic_id.get(region)
+        else:
+            topic = topic_id2.get(region)
 
         if topic is not None and topic not in topics:
             topics.append(topic)
@@ -66,8 +70,98 @@ def gettopic(text: str) -> list[int]:
 
     return topics
 
+async def send_to_telegram(payload: dict) -> bool:
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+
+    try:
+        response = await _client.post(url, json=payload)
+        response.raise_for_status()
+        return True
+
+    except httpx.HTTPStatusError as e:
+        print(
+            f"❌ Telegram API xatoligi "
+            f"({e.response.status_code}): {e.response.text}"
+        )
+        return False
+
+    except Exception as e:
+        print(f"❌ Xabar yuborishda xatolik: {e}")
+        return False
+
 
 async def send_message(
+    text: str,
+    load_id: int,
+    chat_id: int | str = MAIN_GROUP_ID
+) -> bool:
+
+    all_success = True
+
+    # 1. Asosiy guruhga yuborish
+    message_thread_ids = gettopic(text, 1)
+
+    for message_thread_id in message_thread_ids:
+
+        payload = {
+            "chat_id": chat_id,
+            "text": remove_phone(text),
+            "reply_markup": {
+                "inline_keyboard": [[
+                    {
+                        "text": "📞 Nomer ko'rish 📞",
+                        "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
+                    }
+                ]]
+            }
+        }
+
+        if message_thread_id != 1:
+            payload["message_thread_id"] = message_thread_id
+
+        success = await send_to_telegram(payload)
+
+        if not success:
+            all_success = False
+
+    # 2. Kichik mashinalar Premium guruhga yuborish
+    if mini_cars(text):
+        return all_success
+
+    # 3. AI orqali yukni tekshirish
+    result = analyze_load(text, AI_API_KEY)
+
+    if result.startswith(("HA", "XATO")):
+
+        premium_topics = gettopic(text, 2)
+
+        for message_thread_id in premium_topics:
+
+            payload = {
+                "chat_id": PREMIUM_GROUP_ID,
+                "text": remove_phone(text),
+                "reply_markup": {
+                    "inline_keyboard": [[
+                        {
+                            "text": "📞 Nomer ko'rish 📞",
+                            "url": f"https://t.me/Operator_yuk_markazi_bot?start={load_id}"
+                        }
+                    ]]
+                }
+            }
+
+            if message_thread_id != 1:
+                payload["message_thread_id"] = message_thread_id
+
+            success = await send_to_telegram(payload)
+
+            if not success:
+                all_success = False
+
+    return all_success
+
+
+async def send_message3(
     text: str,
     load_id: int,
     chat_id: int | str = MAIN_GROUP_ID
@@ -132,7 +226,7 @@ async def send_message(
     return all_success
 
 async def send_message2(text: str, chat_id: int | str = MAIN_GROUP_ID) -> bool:
-    message_thread_ids = gettopic(text)
+    message_thread_ids = gettopic(text, 1)
 
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 

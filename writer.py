@@ -30,7 +30,14 @@ async def is_duplicate(db: aiosqlite.Connection, message_hash: str) -> bool:
         return row is not None
 
 
-async def save_load_message(text: str, region_a: str = None, region_b: str = None, chat_id: int = 0) -> int | bool:
+async def save_load_message(
+    text: str,
+    region_a: str = None,
+    region_b: str = None,
+    chat_id: int = 0,
+    username: str = None
+) -> int | bool:
+
     msg_hash = get_md5(text)
     now_uzb = datetime.now(UZB_TZ)
     today_uzb = now_uzb.strftime("%Y-%m-%d")
@@ -52,32 +59,45 @@ async def save_load_message(text: str, region_a: str = None, region_b: str = Non
         yid = count + 1
 
         async with db.execute("""
-            INSERT INTO loads (message, message_hash, region_a, region_b, yid, from_id)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (text, msg_hash, region_a, region_b, yid, chat_id)) as cursor:
+            INSERT INTO loads (
+                message, message_hash, region_a, region_b,
+                yid, from_id, "from"
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            text, msg_hash, region_a, region_b,
+            yid, chat_id, username
+        )) as cursor:
             new_id = cursor.lastrowid
 
         await db.commit()
         return new_id
 
-async def save_message(text: str, chat_id: int) -> bool:
-    regions = find_regions(text)  # ["Toshkent"], ["Qashqadaryo", "Samarqand"] va hokazo
+async def save_message(
+    text: str,
+    chat_id: int,
+    username: str = None
+) -> bool:
+
+    regions = find_regions(text)
 
     region_a = regions[0] if len(regions) >= 1 else None
     region_b = regions[1] if len(regions) >= 2 else None
 
     load_id = await save_load_message(
-        text=text, 
-        region_a=region_a, 
+        text=text,
+        region_a=region_a,
         region_b=region_b,
-        chat_id=chat_id
+        chat_id=chat_id,
+        username=username
     )
 
     if load_id:
-        # Agar regionlardan kamida biri Qashqadaryo yoki Samarqand bo'lsa
         target_regions = {"Qashqadaryo", "Samarqand"}
+
         if any(region in target_regions for region in regions):
             await abbos_group(text)
+
     return load_id
   
 

@@ -33,23 +33,31 @@ async def cmd_start(
 
     if not await require_access(message):
         await message.answer(
-            '💳 Balansni ko‘rish yoki to‘ldirish uchun «Balans» tugmasini bosing.',
+            'Balansing yetarli emas. 💳 Balansni ko‘rish yoki to‘ldirish uchun «Balans» tugmasini bosing.',
             reply_markup=get_main_keyboard()
         )
         return
 
 
-    # Start orqali kelgan yuk ID
     if command.args:
         try:
             load_id = int(command.args)
             load = get_load_by_id(load_id)
 
             if load:
+                username_text = (
+                    f"👤 E'lon beruvchi: @{load['from']}\n\n"
+                    if load['from'] else ""
+                )
+
                 await message.answer(
-                    f"{load['message']}",
+                    f"{username_text}{load['message']}",
                     reply_markup=InlineKeyboardMarkup(inline_keyboard=[[
-                        InlineKeyboardButton(text="📞 Qo'ng'iroq 📞", url=f"https://2l.uz/yuk_markaz.html?phone={get_phone(load['message'])}", style="success")
+                        InlineKeyboardButton(
+                            text="📞 Qo'ng'iroq 📞",
+                            url=f"https://2l.uz/yuk_markaz.html?phone={get_phone(load['message'])}",
+                            style="success"
+                        )
                     ]]),
                 )
             else:
