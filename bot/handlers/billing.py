@@ -21,6 +21,7 @@ ADMIN_IDS = {
 CARD_NUMBER = os.getenv("PAYMENT_CARD_NUMBER", "KARTA_RAQAMINI_ENV_FAYLGA_KIRITING")
 CARD_OWNER = os.getenv("PAYMENT_CARD_OWNER", "Karta egasi")
 PAYNET_URL = os.getenv("PAYNET_URL")
+RAHMAT_URL = os.getenv("RAHMAT_URL")
 
 
 class BillingState(StatesGroup):
@@ -90,9 +91,13 @@ async def receive_amount(message: Message, state: FSMContext):
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="🟢 Paynet Ilovasi to‘ldirish",
+                    text="🟢 Paynet ilovasi to‘ldirish",
                     url=PAYNET_URL,
                     style="success"
+                ),
+                InlineKeyboardButton(
+                    text="🟠 Rahmat orqali to‘ldirish",
+                    url=RAHMAT_URL
                 )
             ]
         ]
@@ -103,7 +108,7 @@ async def receive_amount(message: Message, state: FSMContext):
         f"Karta: <code>{CARD_NUMBER}</code>\n"
         f"Karta egasi: <b>{CARD_OWNER}</b>\n\n"
         f"To‘lov summasi: <b>{format_money(amount)} so‘m</b>\n\n"
-        "Endi to‘lov chekini rasm ko‘rinishida yuboring.",
+        "To‘lov qilib bo‘lgach chekini rasm ko‘rinishida yuboring.",
         parse_mode="HTML",
         reply_markup=keyboard
     )
