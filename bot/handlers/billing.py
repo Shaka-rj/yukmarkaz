@@ -6,6 +6,7 @@ from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKe
 from aiogram.fsm.state import State, StatesGroup
 from bot.billing import admin_add_balance
 from aiogram.filters.command import CommandObject
+from config import PAYNET_URL
 
 from bot.billing import (
     get_account, create_receipt, review_receipt, format_money,
@@ -20,6 +21,7 @@ ADMIN_IDS = {
 }
 CARD_NUMBER = os.getenv("PAYMENT_CARD_NUMBER", "KARTA_RAQAMINI_ENV_FAYLGA_KIRITING")
 CARD_OWNER = os.getenv("PAYMENT_CARD_OWNER", "Karta egasi")
+PAYNET_URL = os.getenv("PAYNET_URL")
 
 
 class BillingState(StatesGroup):
@@ -90,7 +92,7 @@ async def receive_amount(message: Message, state: FSMContext):
             [
                 InlineKeyboardButton(
                     text="🟢 Paynet Ilovasi to‘ldirish",
-                    url="https://PAYNET_URL",
+                    url=PAYNET_URL,
                     style="success"
                 )
             ]
