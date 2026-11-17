@@ -77,18 +77,34 @@ async def receive_amount(message: Message, state: FSMContext):
         if amount <= 0:
             raise ValueError
     except ValueError:
-        await message.answer("Summani faqat musbat butun son ko‘rinishida yuboring. Masalan: 50000")
+        await message.answer(
+            "Summani faqat musbat butun son ko‘rinishida yuboring. Masalan: 50000"
+        )
         return
 
     await state.update_data(payment_amount=amount)
     await state.set_state(BillingState.waiting_receipt)
+
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🟢 Paynet Ilovasi to‘ldirish",
+                    url="https://PAYNET_URL",
+                    style="success"
+                )
+            ]
+        ]
+    )
+
     await message.answer(
         "💳 <b>To‘lov uchun karta ma’lumotlari</b>\n\n"
         f"Karta: <code>{CARD_NUMBER}</code>\n"
         f"Karta egasi: <b>{CARD_OWNER}</b>\n\n"
         f"To‘lov summasi: <b>{format_money(amount)} so‘m</b>\n\n"
         "Endi to‘lov chekini rasm ko‘rinishida yuboring.",
-        parse_mode="HTML"
+        parse_mode="HTML",
+        reply_markup=keyboard
     )
 
 
