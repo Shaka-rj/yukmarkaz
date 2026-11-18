@@ -12,8 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR.parent / ".env")
 
 BOT_TOKEN = os.getenv("INSPECTOR_TOKEN")
-GROUP_ID = int(os.getenv("MAIN_GROUP_ID"))
 
+# IKKITA GURUH ID
+GROUP_IDS = {
+    int(os.getenv("MAIN_GROUP_ID")),
+    int(os.getenv("PREMIUM_GROUP_ID"))
+}
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.types import Message, ChatPermissions
@@ -97,7 +101,7 @@ async def delete_warning(chat_id, message_id):
 # XABARNI TEKSHIRISH
 async def moderate(message: Message):
 
-    if message.chat.id != GROUP_ID:
+    if message.chat.id not in GROUP_IDS:
         return
 
     text = message.text or message.caption
@@ -124,7 +128,7 @@ async def moderate(message: Message):
     # FOYDALANUVCHINI 1 DAQIQA MUTE QILISH
     try:
         await bot.restrict_chat_member(
-            chat_id=GROUP_ID,
+            chat_id=message.chat.id,
             user_id=user.id,
             permissions=ChatPermissions(
                 can_send_messages=False
@@ -147,25 +151,26 @@ async def moderate(message: Message):
 
     # 1 DAQIQADAN KEYIN O'CHIRISH
     asyncio.create_task(
-        delete_warning(GROUP_ID, warning.message_id)
+        delete_warning(message.chat.id, warning.message_id)
     )
 
 
 # YANGI XABARLAR
 dp.message.register(
     moderate,
-    F.chat.id == GROUP_ID,
+    F.chat.id.in_(GROUP_IDS),
     F.text | F.caption
 )
 
 # TAHRIRLANGAN XABARLAR
 dp.edited_message.register(
     moderate,
-    F.chat.id == GROUP_ID,
+    F.chat.id.in_(GROUP_IDS),
     F.text | F.caption
 )
 
 
 async def run_inspector_bot():
     print("Inspektor bot ishga tushdi...")
+    print(f"Kuzatilayotgan guruhlar: {GROUP_IDS}")
     await dp.start_polling(bot)

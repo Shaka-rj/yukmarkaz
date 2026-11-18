@@ -65,6 +65,7 @@ blocked_words = [
     "tanar",
     "танар",
     "plashadka",
+    "pilashatka",
     "faw",
     "пилашатка",
 
