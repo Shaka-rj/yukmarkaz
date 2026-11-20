@@ -23,6 +23,7 @@ Mos emas:
 - katta Isuzu kabi katta mashina talab qilinsa
 - kichik mashinaga sig'maydigan yuk
 - transport vositasi ijarasi yoki xizmati haqidagi reklamalar.
+- haydovchilarning yuk olish haqidagi matnlari
 
 Telefon, narx va ortiqcha gaplarni olib tashla.
 Faqat bitta qator javob ber.
