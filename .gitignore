@@ -5,5 +5,5 @@ __pycache__/
 *.session
 *.session-journal
 .env
-storage/
+storage/*
 venv/

@@ -49,7 +49,7 @@ async def main():
         ]
     )
 
-    voice = FSInputFile(MP3_PATH)
+    #voice = FSInputFile(MP3_PATH)
 
     # Foydalanuvchilarni olish
     async with aiosqlite.connect(DB_PATH) as db:
@@ -62,17 +62,17 @@ async def main():
     for (chat_id,) in users:
         try:
             # 1. Ovozli xabar
-            await bot.send_voice(
+            '''await bot.send_voice(
                 chat_id=chat_id,
                 voice=voice,
                 reply_markup=keyboard
-            )
+            )'''
 
             # 2. Matnli xabar
             await bot.send_message(
                 chat_id=chat_id,
                 text=(
-                    "📢 Yangi guruh: @TEZKOR_YUK_MARKAZ"
+                    "📢 Yangi guruh: @TEZKOR_YUK_MARKAZ\n\nYengil yuklar tushadi"
                 ),
                 reply_markup=inline_keyboard
             )
@@ -83,7 +83,7 @@ async def main():
             failed += 1
             print(f"Xatolik ({chat_id}): {e}")
 
-        await asyncio.sleep(0.05)
+        await asyncio.sleep(0.02)
 
     print("\nTarqatish yakunlandi!")
     print(f"Jami: {len(users)}")
