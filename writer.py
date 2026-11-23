@@ -112,5 +112,4 @@ async def abbos_group(text: str) -> bool:
     elif result.startswith("XATO"):
         return await send_message2(text, chat_id=ABBOS_GROUP_ID)
     else:
-        print(result + text)
         return False
